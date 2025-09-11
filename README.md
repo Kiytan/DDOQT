@@ -72,15 +72,13 @@ Edit the `static/quests.json` file to add new quests. Each quest should follow t
 
 ```json
 {
-  "id": "unique_quest_id",
-  "name": "Quest Name",
-  "level": 5,
-  "difficulty": "Normal",
-  "favor": 10,
-  "patron": "Patron Name",
-  "adventurePack": "Pack Name",
-  "description": "Quest description"
-}
+    "id": "unique_id",
+    "name": "The Grotto",
+    "level": 1,
+    "baseFavor": 5,
+    "patron": "The Free Agents",
+    "adventurePack": "Free to Play"
+  }
 ```
 
 ### Styling
