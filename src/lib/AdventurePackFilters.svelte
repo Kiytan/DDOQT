@@ -7,8 +7,17 @@
 		Expansions: [
 			'Shadowfell Conspiracy',
 			'Menace of the Underdark',
-			'Shadowlands',
-			'Vecna Unleashed'
+			'Vecna Unleashed',
+			'Sinister Secret of Saltmarsh',
+			'Fables of the Feywild',
+			'The Isle of Dread',
+			'Mists of Ravenloft',
+			'Magic of Myth Drannor',
+			'Masterminds of Sharn',
+			'Shadow Over Wheloon',
+			'The Secret of the Storm Horns'
+
+
 		]
 	};
 
