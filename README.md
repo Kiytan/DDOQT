@@ -5,7 +5,7 @@ A minimal Svelte 5 web application for tracking completed Dungeons & Dragons Onl
 ## Features
 
 - **Quest Management**: Track completion status of DDO quests
-- **Multiple Filters**: Filter by level range, difficulty, patron, adventure pack, and completion status
+- **Multiple Filters**: Filter by level range, patron, adventure pack, and completion status
 - **Progress Statistics**: View completion percentage and earned favor
 - **URL Hash Persistence**: Quest progress is automatically saved in the URL hash for easy sharing and bookmarking
 - **Responsive Design**: Works on desktop and mobile devices
@@ -16,11 +16,11 @@ A minimal Svelte 5 web application for tracking completed Dungeons & Dragons Onl
 Each quest includes:
 - **Name**: Quest title
 - **Level**: Recommended character level
-- **Difficulty**: Casual, Normal, Hard, Elite, or Reaper
+- **Difficulty**: Normal, Hard, Elite, or Reaper
 - **Favor**: Favor points earned upon completion
 - **Patron**: The patron organization (House Deneith, Silver Flame, etc.)
 - **Adventure Pack**: Source pack or "Free to Play"
-- **Description**: Brief quest description
+- **Wiki Link**: A link to the doowiki page for that quest
 
 ## Getting Started
 
@@ -55,15 +55,14 @@ The built files will be in the `build` directory.
 ## Usage
 
 1. **View Quests**: All available quests are displayed with their details
-2. **Mark Complete**: Click the checkbox next to any quest to mark it as completed
+2. **Mark Complete**: Click the difficulty in the quest card to mark it as completed
 3. **Filter Quests**: Use the filter panel to narrow down quests by:
    - Level range (min/max)
    - Completion status (all, completed, not completed)
-   - Difficulty levels
    - Patron organizations
    - Adventure packs
 4. **Track Progress**: View your completion statistics at the top
-5. **Share Progress**: Your completion status is automatically saved in the URL - share the link to show your progress to others
+5. **Share Progress**: Your completion status is automatically saved in the URL or using the hash in the settings panel
 
 ## Customization
 

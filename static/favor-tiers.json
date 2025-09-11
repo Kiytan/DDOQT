@@ -1,0 +1,614 @@
+[
+  {
+    "name": "Cormanthor Elves",
+    "link": "Cormanthor Elves",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (saves): +1 to Saves vs Spells",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Agents of Argonnessen",
+    "link": "Agents of Argonnessen",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "One item from list",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +10 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Feat (saves): +2 Saves vs. Dragons",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "House Cannith",
+    "link": "House Cannith",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 50,
+        "reward": "Patron vendor: 10% Crafting XP Potion, 10% Crafting Success Booster, Mark of House Cannith",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Artificer",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Coin Lords",
+    "link": "The Coin Lords",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Character Inventory Tab",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Character Inventory Tab: Requires either one Collapsed Portable Hole + 10k pp, or 6 Astral Shards",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Feat (skills): +2 Diplomacy and Intimidate",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "House Deneith",
+    "link": "House Deneith",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (skills): +2 to Intimidate and Search",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Free Agents",
+    "link": "The Free Agents",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Patron vendor: +2 Tools, Trapmaking Ingredients",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Patron vendor: +4 Tools, Empty Vials",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Repairs with Lower Chance of Permanent Damage",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Falconry",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 1000,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Gatekeepers",
+    "link": "The Gatekeepers",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (skills): +2 to Spot and Concentration",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Horizon Walker",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Feat (saves): +2 to saves versus Extraplanar Creatures",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 1000,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Harpers",
+    "link": "The Harpers",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 125,
+        "reward": "Lesser Harper Pin | Feat (skills): +2 to Perform and Bluff",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 250,
+        "reward": "Greater Harper Pin Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 310,
+        "reward": "Harper Agent",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 500,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "House Jorasco",
+    "link": "House Jorasco",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "1h divine buffs (weak) | Feat (skills): +2 to Heal and Diplomacy",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "1h divine buffs (moderate) | Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Keepers of the Feather",
+    "link": "Keepers of the Feather",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 60,
+        "reward": "Feat (saves): +2 to Saves vs Undead",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 120,
+        "reward": "Small Augment Bag",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 180,
+        "reward": "Vistani Knife Fighter",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 240,
+        "reward": "Feat (skills): +2 to Listen and Hide",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "House Kundarak",
+    "link": "House Kundarak",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Character Bank: 20 slots, cost 2k pp",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Character Bank: 20 slots, cost 8k pp",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Morgrave University",
+    "link": "Morgrave University",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (skills): +2 to Search and Spellcraft",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Feat (saves): +2 to Saves versus magical beasts",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 450,
+        "reward": "Feat (skills): +2 to Use Magic Device",
+        "unreachable": false
+      }
+    ]
+  },
+  {
+    "name": "House Phiarlan",
+    "link": "House Phiarlan",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "1h arcane buffs | Feat (skills): +2 to Hide and Perform",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "+50% public movespeed clicky",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Purple Dragon Knights",
+    "link": "Purple Dragon Knights",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 125,
+        "reward": "Teleport to Eveningstar Clicky",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 250,
+        "reward": "Spotted Wolf Pup | Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 375,
+        "reward": "Add set bonus to certain items",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 500,
+        "reward": "Feat (saves): +2 Saves vs Evil Creatures",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 800,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Sharn City Council",
+    "link": "Sharn City Council",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (skills): +2 to Bluff and Haggle",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 225,
+        "reward": "Inquisitive",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 450,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Silver Flame",
+    "link": "The Silver Flame",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Spiritbinders Half Cost",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Nearly double passive tavern regeneration",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Silver Ammo, Healing Potion with Penalty",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Summer Court",
+    "link": "The Summer Court",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 45,
+        "reward": "Feat (saves): +2 to saves versus Fey Creatures",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 90,
+        "reward": "Feat (HP): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 135,
+        "reward": "Feydark Illusionist",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 180,
+        "reward": "Feat (skills): +2 to Diplomacy and Perform",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Twelve",
+    "link": "The Twelve",
+    "tiers": [
+      {
+        "tier": 0,
+        "favorRequired": 0,
+        "reward": "Small Ingredients Bag",
+        "unreachable": false
+      },
+      {
+        "tier": 1,
+        "favorRequired": 40,
+        "reward": "Access to the crafting altar and shard vendor in Meridia",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 100,
+        "reward": "Large Ingredients Bag",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Feat (saves): +2 to saves versus Spells",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 700,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "The Yugoloth",
+    "link": "The Yugoloth",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Essence Potions",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 300,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
+    "name": "Total Favor<br>Account Rewards",
+    "link": "Total Favor",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 400,
+        "reward": "Warforged",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 1000,
+        "reward": "Level 4 characters",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 1750,
+        "reward": "32 Point Characters +2 Ability Tome",
+        "unreachable": false
+      },
+      {
+        "tier": 4,
+        "favorRequired": 2500,
+        "reward": "Favored Soul",
+        "unreachable": false
+      },
+      {
+        "tier": 5,
+        "favorRequired": 3000,
+        "reward": "Level 7 Characters",
+        "unreachable": false
+      },
+      {
+        "tier": 6,
+        "favorRequired": 5000,
+        "reward": "+5 Ability Tome",
+        "unreachable": false
+      },
+      {
+        "tier": 7,
+        "favorRequired": 7500,
+        "reward": "+8 Ability Tome",
+        "unreachable": false
+      },
+      {
+        "tier": 8,
+        "favorRequired": 10000,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  }
+]
