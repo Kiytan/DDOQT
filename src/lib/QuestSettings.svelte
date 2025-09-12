@@ -98,11 +98,17 @@
 	}
 
 	async function loadPatchNotes() {
-		if (patchNotesContent) return; // Already loaded
-		
 		patchNotesLoading = true;
 		try {
-			const response = await fetch('/PATCHNOTES.md');
+			// Add cache-busting timestamp to ensure fresh content
+			const timestamp = new Date().getTime();
+			const response = await fetch(`/PATCHNOTES.md?v=${timestamp}`, {
+				cache: 'no-cache',
+				headers: {
+					'Cache-Control': 'no-cache',
+					'Pragma': 'no-cache'
+				}
+			});
 			if (response.ok) {
 				const markdown = await response.text();
 				patchNotesContent = parseMarkdownToHTML(markdown);
