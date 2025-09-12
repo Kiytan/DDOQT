@@ -676,38 +676,6 @@
 		margin-top: 0.5rem;
 	}
 
-	.tier-label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-		padding: 0.25rem;
-		border-radius: 4px;
-		transition: background-color 0.2s ease;
-	}
-
-	.tier-label:hover {
-		background: rgba(212, 175, 55, 0.1);
-	}
-
-	.tier-name {
-		font-weight: 500;
-	}
-
-	.tier-name.raid {
-		color: #dc2626; /* Red for Raids */
-	}
-
-	.tier-name.only-raids,
-	.toggle-label.only-raids {
-		color: #b91c1c; /* Darker red for Only Raids */
-		font-weight: 600;
-	}
-
-	.tier-label input[type='checkbox'] {
-		margin: 0;
-	}
-
 	.level-filters-content {
 		margin-top: 1rem;
 		padding-left: 1rem;
@@ -731,16 +699,6 @@
 
 	.unique-quests-section {
 		margin-bottom: 0.5rem;
-	}
-
-	.unique-quests-label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-		padding: 0.25rem;
-		border-radius: 4px;
-		transition: background-color 0.2s ease;
 	}
 
 	.boolean-toggle {

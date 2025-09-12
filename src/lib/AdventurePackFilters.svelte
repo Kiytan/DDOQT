@@ -217,21 +217,6 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.ftp-label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-		font-size: 1rem;
-		color: #e0e0e0;
-		font-weight: 500;
-	}
-
-	.ftp-label input[type='checkbox'] {
-		margin: 0;
-		accent-color: #d4af37;
-	}
-
 	.category-section {
 		margin-bottom: 1.5rem;
 	}
