@@ -15,9 +15,8 @@
 			'Magic of Myth Drannor',
 			'Masterminds of Sharn',
 			'Shadow Over Wheloon',
-			'The Secret of the Storm Horns'
-
-
+			'The Secret of the Storm Horns',
+			'The Chill of Ravenloft'
 		]
 	};
 
@@ -230,6 +229,7 @@
 	.category-label input[type='checkbox'] {
 		margin: 0;
 		cursor: pointer;
+		accent-color: #d4af37;
 	}
 
 	.pack-list {
@@ -258,6 +258,7 @@
 	.pack-label input[type='checkbox'] {
 		margin: 0;
 		cursor: pointer;
+		accent-color: #d4af37;
 	}
 
 	.toggle-button {

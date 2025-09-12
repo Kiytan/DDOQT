@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
 import LZString from 'lz-string';
 import type { Quest, QuestFilters, CompletedQuests } from './types.js';
+import { isHeroicQuest, isEpicQuest, isLegendaryQuest, isRaid } from './types.js';
 
 // Difficulty multipliers
 export const difficultyMultipliers = {
@@ -232,6 +233,33 @@ export const filteredQuests = derived(
 			if ($filters.completed !== undefined) {
 				const isCompleted = !!$completed[quest.id];
 				if ($filters.completed !== isCompleted) return false;
+			}
+
+			// Heroic quest filter (level 1-19)
+			if ($filters.heroic && !isHeroicQuest(quest.level)) return false;
+
+			// Epic quest filter (level 20-29)
+			if ($filters.epic && !isEpicQuest(quest.level)) return false;
+
+			// Legendary quest filter (level 30+)
+			if ($filters.legendary && !isLegendaryQuest(quest.level)) return false;
+
+			// Raid quest filter
+			if ($filters.raids && !isRaid(quest.name)) return false;
+
+			// Filter for quests without Epic/Legendary versions
+			if ($filters.noEpicLegendaryVersions) {
+				// Get the base quest ID (either the quest's own ID or its baseQuestId)
+				const baseId = quest.baseQuestId || quest.id;
+				
+				// Check if any quest in the dataset has this baseId and is Epic/Legendary
+				const hasEpicLegendaryVersion = $quests.some(q => {
+					const qBaseId = q.baseQuestId || q.id;
+					return qBaseId === baseId && (isEpicQuest(q.level) || isLegendaryQuest(q.level));
+				});
+				
+				// If this quest has Epic/Legendary versions, exclude it
+				if (hasEpicLegendaryVersion) return false;
 			}
 
 			return true;

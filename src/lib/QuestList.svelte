@@ -8,6 +8,7 @@
 		quests
 	} from '$lib/questStore.js';
 	import type { Quest } from '$lib/types.js';
+	import { isEpicQuest, isLegendaryQuest, getQuestTier, isRaid } from '$lib/types.js';
 
 	type Difficulty = 'Normal' | 'Hard' | 'Elite' | 'Reaper';
 
@@ -46,6 +47,16 @@
 				return '#2e1a1a'; // Dark red/brown
 			default:
 				return '#2a2a2a'; // Dark gray fallback
+		}
+	}
+
+	function getQuestTitleColor(level: number): string {
+		if (isLegendaryQuest(level)) {
+			return '#ea580c'; // Darker orange for Legendary
+		} else if (isEpicQuest(level)) {
+			return '#a855f7'; // Purple for Epic
+		} else {
+			return '#e0e0e0'; // Default color for Heroic
 		}
 	}
 
@@ -103,6 +114,14 @@
 						<div class="quest-info-compact">
 							<h4 class="quest-name-compact">
 								{quest.name}
+								{#if isEpicQuest(quest.level)}
+									<span class="tier-label epic">Epic</span>
+								{:else if isLegendaryQuest(quest.level)}
+									<span class="tier-label legendary">Legendary</span>
+								{/if}
+								{#if isRaid(quest.name)}
+									<span class="tier-label raid">Raid</span>
+								{/if}
 								{#if quest.baseQuestId}
 									<span class="level-variant">(Level {quest.level})</span>
 								{/if}
@@ -145,6 +164,14 @@
 						<div class="quest-info">
 							<h4 class="quest-name">
 								{quest.name}
+								{#if isEpicQuest(quest.level)}
+									<span class="tier-label epic">Epic</span>
+								{:else if isLegendaryQuest(quest.level)}
+									<span class="tier-label legendary">Legendary</span>
+								{/if}
+								{#if isRaid(quest.name)}
+									<span class="tier-label raid">Raid</span>
+								{/if}
 								{#if quest.baseQuestId}
 									<span class="level-variant">(Level {quest.level})</span>
 								{/if}
@@ -508,5 +535,30 @@
 		color: #6c757d;
 		font-weight: normal;
 		margin-left: 0.5rem;
+	}
+
+	.tier-label {
+		font-size: 0.75em;
+		font-weight: bold;
+		margin-left: 0.5rem;
+		padding: 0.1rem 0.3rem;
+		border-radius: 3px;
+		background: rgba(0, 0, 0, 0.3);
+	}
+
+	.tier-label.epic {
+		color: #a855f7;
+		border: 1px solid #a855f7;
+	}
+
+	.tier-label.legendary {
+		color: #ea580c;
+		border: 1px solid #ea580c;
+	}
+
+	.tier-label.raid {
+		color: #dc2626;
+		border: 1px solid #dc2626;
+		font-weight: 900;
 	}
 </style>

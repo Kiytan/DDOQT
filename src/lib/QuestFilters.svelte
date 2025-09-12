@@ -11,6 +11,7 @@
 
 	let currentFilters: QuestFilters = {};
 	let patronsExpanded = false; // State for patron filter collapse/expand
+	let levelFiltersExpanded = false; // State for level-based filters collapse/expand
 	let isExpanded = true; // State for entire filters section collapse/expand
 	let showAutocomplete = false;
 	let autocompleteResults: string[] = [];
@@ -198,31 +199,88 @@
 			</div>
 
 			<div class="filter-group">
-				<span class="filter-label">Completion Status:</span>
-				<select bind:value={currentFilters.completed} on:change={updateFilters}>
-					<option value={undefined}>All</option>
-					<option value={true}>Completed</option>
-					<option value={false}>Not Completed</option>
-				</select>
-			</div>
-
-			<div class="filter-group">
-				<span class="filter-label">Sort By:</span>
-				<div class="sort-controls">
-					<select bind:value={currentFilters.sortBy} on:change={updateFilters}>
-						<option value={undefined}>Default</option>
-						<option value="name">Name</option>
-						<option value="level">Level</option>
-						<option value="baseFavor">Base Favor</option>
-						<option value="patron">Patron</option>
-					</select>
-					{#if currentFilters.sortBy}
-						<select bind:value={currentFilters.sortOrder} on:change={updateFilters}>
-							<option value="asc">Ascending</option>
-							<option value="desc">Descending</option>
-						</select>
+				<div class="filter-header">
+					<div class="filter-label">
+						<strong>Quest Type</strong>
+					</div>
+					<button
+						class="toggle-button"
+						on:click={() => (levelFiltersExpanded = !levelFiltersExpanded)}
+						aria-label={levelFiltersExpanded ? 'Collapse level filters' : 'Expand level filters'}
+					>
+						{levelFiltersExpanded ? '▼' : '▶'}
+					</button>
+					{#if !levelFiltersExpanded}
+						{@const activeLevelFilters = [
+							currentFilters.heroic && 'Heroic',
+							currentFilters.epic && 'Epic', 
+							currentFilters.legendary && 'Legendary',
+							currentFilters.raids && 'Raids',
+							currentFilters.noEpicLegendaryVersions && 'Unique only'
+						].filter(Boolean)}
+						{#if activeLevelFilters.length > 0}
+							<span class="filter-count">({activeLevelFilters.length} active)</span>
+						{/if}
 					{/if}
 				</div>
+				{#if levelFiltersExpanded}
+					<div class="level-filters-content">
+						<div class="quest-tier-section">
+							<div class="tier-group">
+								<span class="filter-label">Quest Tier:</span>
+								<div class="quest-tier-filters">
+									<label class="tier-label">
+										<input
+											type="checkbox"
+											bind:checked={currentFilters.heroic}
+											on:change={updateFilters}
+										/>
+										<span class="tier-name heroic">Heroic (1-19)</span>
+									</label>
+									<label class="tier-label">
+										<input
+											type="checkbox"
+											bind:checked={currentFilters.epic}
+											on:change={updateFilters}
+										/>
+										<span class="tier-name epic">Epic (20-29)</span>
+									</label>
+									<label class="tier-label">
+										<input
+											type="checkbox"
+											bind:checked={currentFilters.legendary}
+											on:change={updateFilters}
+										/>
+										<span class="tier-name legendary">Legendary (30+)</span>
+									</label>
+								</div>
+							</div>
+							<div class="type-group">
+								<span class="filter-label">Quest Type:</span>
+								<div class="quest-tier-filters">
+									<label class="tier-label">
+										<input
+											type="checkbox"
+											bind:checked={currentFilters.raids}
+											on:change={updateFilters}
+										/>
+										<span class="tier-name raid">Raids</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="unique-quests-section">
+							<label class="unique-quests-label">
+								<input
+									type="checkbox"
+									bind:checked={currentFilters.noEpicLegendaryVersions}
+									on:change={updateFilters}
+								/>
+								<span class="unique-quests-text">Only quests without Epic/Legendary versions</span>
+							</label>
+						</div>
+					</div>
+				{/if}
 			</div>
 
 			{#if $filterOptions.patrons.length > 0}
@@ -261,6 +319,34 @@
 					{/if}
 				</div>
 			{/if}
+
+			<div class="filter-group">
+				<span class="filter-label">Completion Status:</span>
+				<select bind:value={currentFilters.completed} on:change={updateFilters}>
+					<option value={undefined}>All</option>
+					<option value={true}>Completed</option>
+					<option value={false}>Not Completed</option>
+				</select>
+			</div>
+
+			<div class="filter-group">
+				<span class="filter-label">Sort By:</span>
+				<div class="sort-controls">
+					<select bind:value={currentFilters.sortBy} on:change={updateFilters}>
+						<option value={undefined}>Default</option>
+						<option value="name">Name</option>
+						<option value="level">Level</option>
+						<option value="baseFavor">Base Favor</option>
+						<option value="patron">Patron</option>
+					</select>
+					{#if currentFilters.sortBy}
+						<select bind:value={currentFilters.sortOrder} on:change={updateFilters}>
+							<option value="asc">Ascending</option>
+							<option value="desc">Descending</option>
+						</select>
+					{/if}
+				</div>
+			</div>
 
 			<button on:click={clearFilters} class="clear-button">Clear All Filters</button>
 		</div>
@@ -533,5 +619,102 @@
 		font-size: 0.85rem;
 		color: #888;
 		font-style: italic;
+	}
+
+	.quest-tier-filters {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.tier-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		padding: 0.25rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease;
+	}
+
+	.tier-label:hover {
+		background: rgba(212, 175, 55, 0.1);
+	}
+
+	.tier-name {
+		font-weight: 500;
+	}
+
+	.tier-name.heroic {
+		color: #10b981; /* Green for Heroic */
+	}
+
+	.tier-name.epic {
+		color: #a855f7; /* Purple for Epic */
+	}
+
+	.tier-name.legendary {
+		color: #ea580c; /* Darker orange for Legendary */
+	}
+
+	.tier-name.raid {
+		color: #dc2626; /* Red for Raids */
+	}
+
+	.tier-label input[type='checkbox'] {
+		margin: 0;
+	}
+
+	.level-filters-content {
+		margin-top: 1rem;
+		padding-left: 1rem;
+		border-left: 2px solid #404040;
+	}
+
+	.quest-tier-section {
+		margin-bottom: 1rem;
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.tier-group,
+	.type-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.raid-section {
+		margin-bottom: 1rem;
+	}
+
+	.unique-quests-section {
+		margin-bottom: 0.5rem;
+	}
+
+	.unique-quests-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		padding: 0.25rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease;
+	}
+
+	.unique-quests-label:hover {
+		background: rgba(212, 175, 55, 0.1);
+	}
+
+	.unique-quests-text {
+		font-weight: 500;
+		color: #e0e0e0;
+	}
+
+	.unique-quests-label input[type='checkbox'] {
+		margin: 0;
 	}
 </style>
