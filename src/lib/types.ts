@@ -18,6 +18,7 @@ export interface QuestFilters {
 	epic?: boolean; // Filter for Epic quests (level 20-29)
 	legendary?: boolean; // Filter for Legendary quests (level 30+)
 	raids?: boolean; // Filter for Raid quests
+	onlyRaids?: boolean; // Show only raid quests
 	noEpicLegendaryVersions?: boolean; // Filter for quests without Epic/Legendary variants
 	sortBy?: 'name' | 'level' | 'baseFavor' | 'patron';
 	sortOrder?: 'asc' | 'desc';

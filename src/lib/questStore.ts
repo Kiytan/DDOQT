@@ -244,8 +244,11 @@ export const filteredQuests = derived(
 			// Legendary quest filter (level 30+)
 			if ($filters.legendary && !isLegendaryQuest(quest.level)) return false;
 
-			// Raid quest filter
-			if ($filters.raids && !isRaid(quest.name)) return false;
+			// Raid quest filter - exclude raids unless explicitly enabled
+			if (!$filters.raids && isRaid(quest.name)) return false;
+
+			// Only raids filter - show only raids when enabled
+			if ($filters.onlyRaids && !isRaid(quest.name)) return false;
 
 			// Filter for quests without Epic/Legendary versions
 			if ($filters.noEpicLegendaryVersions) {

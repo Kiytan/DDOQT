@@ -63,6 +63,14 @@
 		filters.set({ ...currentFilters });
 	}
 
+	function handleOnlyRaidsChange() {
+		// When "Only Raids" is checked, automatically enable "Raids" filter
+		if (currentFilters.onlyRaids) {
+			currentFilters.raids = true;
+		}
+		updateFilters();
+	}
+
 	function clearFilters() {
 		currentFilters = {
 			sortBy: undefined,
@@ -216,6 +224,7 @@
 							currentFilters.epic && 'Epic', 
 							currentFilters.legendary && 'Legendary',
 							currentFilters.raids && 'Raids',
+							currentFilters.onlyRaids && 'Only Raids',
 							currentFilters.noEpicLegendaryVersions && 'Unique only'
 						].filter(Boolean)}
 						{#if activeLevelFilters.length > 0}
@@ -265,6 +274,14 @@
 											on:change={updateFilters}
 										/>
 										<span class="tier-name raid">Raids</span>
+									</label>
+									<label class="tier-label">
+										<input
+											type="checkbox"
+											bind:checked={currentFilters.onlyRaids}
+											on:change={handleOnlyRaidsChange}
+										/>
+										<span class="tier-name only-raids">Only Raids</span>
 									</label>
 								</div>
 							</div>
@@ -660,6 +677,11 @@
 
 	.tier-name.raid {
 		color: #dc2626; /* Red for Raids */
+	}
+
+	.tier-name.only-raids {
+		color: #b91c1c; /* Darker red for Only Raids */
+		font-weight: 600;
 	}
 
 	.tier-label input[type='checkbox'] {
