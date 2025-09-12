@@ -254,11 +254,24 @@
 
 <!-- Patch Notes Modal -->
 {#if showPatchNotes}
-	<div class="modal-overlay" on:click={closePatchNotes}>
-		<div class="modal-content" on:click|stopPropagation>
+	<div 
+		class="modal-overlay" 
+		on:click={closePatchNotes}
+		on:keydown={(e) => e.key === 'Escape' && closePatchNotes()}
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="patch-notes-title"
+		tabindex="-1"
+	>
+		<div 
+			class="modal-content" 
+			on:click|stopPropagation
+			on:keydown|stopPropagation
+			role="document"
+		>
 			<div class="modal-header">
-				<h3>Patch Notes</h3>
-				<button class="close-btn" on:click={closePatchNotes}>&times;</button>
+				<h3 id="patch-notes-title">Patch Notes</h3>
+				<button class="close-btn" on:click={closePatchNotes} aria-label="Close patch notes">&times;</button>
 			</div>
 			<div class="modal-body">
 				{#if patchNotesLoading}
@@ -474,7 +487,7 @@
 		line-height: 1.6;
 	}
 
-	.markdown-content h1 {
+	.markdown-content :global(h1) {
 		color: #d4af37;
 		font-size: 1.5rem;
 		margin: 0 0 1rem 0;
@@ -482,31 +495,31 @@
 		padding-bottom: 0.5rem;
 	}
 
-	.markdown-content h2 {
+	.markdown-content :global(h2) {
 		color: #d4af37;
 		font-size: 1.3rem;
 		margin: 2rem 0 1rem 0;
 	}
 
-	.markdown-content h3 {
+	.markdown-content :global(h3) {
 		color: #f0c674;
 		font-size: 1.1rem;
 		margin: 1.5rem 0 0.5rem 0;
 	}
 
-	.markdown-content ul {
+	.markdown-content :global(ul) {
 		margin: 0.5rem 0 1rem 1.5rem;
 	}
 
-	.markdown-content li {
+	.markdown-content :global(li) {
 		margin-bottom: 0.3rem;
 	}
 
-	.markdown-content strong {
+	.markdown-content :global(strong) {
 		color: #81a1c1;
 	}
 
-	.markdown-content code {
+	.markdown-content :global(code) {
 		background: #3c3c3c;
 		padding: 0.2rem 0.4rem;
 		border-radius: 3px;
@@ -514,13 +527,13 @@
 		font-size: 0.9em;
 	}
 
-	.markdown-content hr {
+	.markdown-content :global(hr) {
 		border: none;
 		border-top: 1px solid #555;
 		margin: 2rem 0;
 	}
 
-	.markdown-content p {
+	.markdown-content :global(p) {
 		margin: 0.5rem 0;
 	}
 

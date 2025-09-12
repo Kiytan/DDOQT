@@ -687,10 +687,6 @@
 		gap: 0.5rem;
 	}
 
-	.raid-section {
-		margin-bottom: 1rem;
-	}
-
 	.unique-quests-section {
 		margin-bottom: 0.5rem;
 	}
