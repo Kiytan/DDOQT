@@ -1,5 +1,17 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.2.0 - September 2025
+
+### Major Update: Tri-State Toggles
+- **Tri-State Filtering**: All major filters (quest tiers, completion status, patrons, raids, adventure packs, expansions) now use tri-state toggles (include/exclude/neutral) for more flexible filtering.
+- **Visual Consistency**: Unified toggle appearance across all filter types for a cleaner UI.
+- **Default Filters**: Filters now default to showing all content for a more intuitive experience.
+- **Text Overflow Fixes**: Adventure pack and expansion names now wrap correctly for improved readability.
+- **Expansion List Accuracy**: Expansion filter now matches quest data and displays correct counts.
+- **Collapsible Categories**: Both Adventure Packs and Expansions are collapsed by default for a cleaner initial view.
+
+---
+
 ## Version 2.1.0 - September 2025
 
 ### New Features

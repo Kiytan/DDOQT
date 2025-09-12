@@ -1,7 +1,17 @@
 import { writable, derived } from 'svelte/store';
 import LZString from 'lz-string';
-import type { Quest, QuestFilters, CompletedQuests } from './types.js';
+import type { Quest, QuestFilters, CompletedQuests, FilterState } from './types.js';
 import { isHeroicQuest, isEpicQuest, isLegendaryQuest, isRaid } from './types.js';
+
+// Helper function for tri-state filtering
+function applyTriStateFilter(filterState: FilterState, conditionMet: boolean): boolean {
+	if (filterState === 'include') {
+		return conditionMet; // Show only if condition is met
+	} else if (filterState === 'exclude') {
+		return !conditionMet; // Show only if condition is NOT met
+	}
+	return true; // No filter applied
+}
 
 // Difficulty multipliers
 export const difficultyMultipliers = {
@@ -39,10 +49,30 @@ export async function loadQuests(): Promise<void> {
 
 		const questData: Quest[] = await response.json();
 		quests.set(questData);
+		
+		// Initialize default filters after quests are loaded
+		initializeDefaultFilters(questData);
 	} catch (error) {
 		console.error('Failed to load quest data:', error);
 		quests.set([]);
 	}
+}
+
+// Initialize default filters to show all content
+function initializeDefaultFilters(questData: Quest[]): void {
+	// Get all unique adventure packs
+	const allPacks = [...new Set(questData.map(q => q.adventurePack))];
+	
+	// Set all adventure packs to 'include' by default
+	const defaultAdventurePacks: { [key: string]: FilterState } = {};
+	allPacks.forEach(pack => {
+		defaultAdventurePacks[pack] = 'include';
+	});
+	
+	filters.set({
+		adventurePacks: defaultAdventurePacks,
+		raids: 'include'
+	});
 }
 
 // Load completed quests from URL hash
@@ -217,35 +247,73 @@ export const filteredQuests = derived(
 			if ($filters.minLevel && quest.level < $filters.minLevel) return false;
 			if ($filters.maxLevel && quest.level > $filters.maxLevel) return false;
 
-			// Patron filter
-			if ($filters.patron && $filters.patron.length > 0 && !$filters.patron.includes(quest.patron))
-				return false;
+			// Patron filter (tri-state)
+			if ($filters.patron && Object.keys($filters.patron).length > 0) {
+				const patronState = $filters.patron[quest.patron];
+				if (patronState !== undefined) {
+					if (!applyTriStateFilter(patronState, true)) return false;
+				} else {
+					// If patron has no explicit state, check if any patrons are included
+					const hasIncludedPatrons = Object.values($filters.patron).some(state => state === 'include');
+					if (hasIncludedPatrons) {
+						// If some patrons are explicitly included, exclude those without explicit include
+						return false;
+					}
+				}
+			}
 
 			// Adventure pack filter
-			if (
-				$filters.adventurePacks &&
-				$filters.adventurePacks.length > 0 &&
-				!$filters.adventurePacks.includes(quest.adventurePack)
-			)
-				return false;
+			if ($filters.adventurePacks && Object.keys($filters.adventurePacks).length > 0) {
+				// Check if any adventure pack has an 'include' filter
+				const includeFilters = Object.entries($filters.adventurePacks).filter(([_, state]) => state === 'include');
+				const excludeFilters = Object.entries($filters.adventurePacks).filter(([_, state]) => state === 'exclude');
+				
+				// If there are include filters, only show quests from those packs
+				if (includeFilters.length > 0) {
+					const includePacks = includeFilters.map(([pack, _]) => pack);
+					if (!includePacks.includes(quest.adventurePack)) return false;
+				}
+				
+				// If there are exclude filters, hide quests from those packs
+				if (excludeFilters.length > 0) {
+					const excludePacks = excludeFilters.map(([pack, _]) => pack);
+					if (excludePacks.includes(quest.adventurePack)) return false;
+				}
+			}
 
 			// Completion filter
 			if ($filters.completed !== undefined) {
 				const isCompleted = !!$completed[quest.id];
-				if ($filters.completed !== isCompleted) return false;
+				if (!applyTriStateFilter($filters.completed, isCompleted)) return false;
 			}
 
-			// Heroic quest filter (level 1-19)
-			if ($filters.heroic && !isHeroicQuest(quest.level)) return false;
+			// Heroic quest filter (level 1-19) 
+			if ($filters.heroic !== undefined) {
+				if (!applyTriStateFilter($filters.heroic, isHeroicQuest(quest.level))) return false;
+			}
 
 			// Epic quest filter (level 20-29)
-			if ($filters.epic && !isEpicQuest(quest.level)) return false;
+			if ($filters.epic !== undefined) {
+				if (!applyTriStateFilter($filters.epic, isEpicQuest(quest.level))) return false;
+			}
 
 			// Legendary quest filter (level 30+)
-			if ($filters.legendary && !isLegendaryQuest(quest.level)) return false;
+			if ($filters.legendary !== undefined) {
+				if (!applyTriStateFilter($filters.legendary, isLegendaryQuest(quest.level))) return false;
+			}
 
-			// Raid quest filter - exclude raids unless explicitly enabled
-			if (!$filters.raids && isRaid(quest.name)) return false;
+			// Raid quest filter
+			if ($filters.raids !== undefined) {
+				const questIsRaid = isRaid(quest.name);
+				if ($filters.raids === 'include') {
+					// Include: allow both raids and non-raids (no filtering)
+					// This is a no-op - don't filter anything
+				} else if ($filters.raids === 'exclude') {
+					// Exclude: hide raids, show only non-raids
+					if (questIsRaid) return false;
+				}
+				// None (undefined): show both raids and non-raids (no filtering)
+			}
 
 			// Only raids filter - show only raids when enabled
 			if ($filters.onlyRaids && !isRaid(quest.name)) return false;

@@ -8,18 +8,20 @@ export interface Quest {
 	baseQuestId?: string; // For quest variants, reference to the original quest ID
 }
 
+export type FilterState = 'include' | 'exclude' | undefined;
+
 export interface QuestFilters {
 	minLevel?: number;
 	maxLevel?: number;
-	patron?: string[];
-	adventurePacks?: string[];
-	completed?: boolean;
-	heroic?: boolean; // Filter for Heroic quests (level 1-19)
-	epic?: boolean; // Filter for Epic quests (level 20-29)
-	legendary?: boolean; // Filter for Legendary quests (level 30+)
-	raids?: boolean; // Filter for Raid quests
-	onlyRaids?: boolean; // Show only raid quests
-	noEpicLegendaryVersions?: boolean; // Filter for quests without Epic/Legendary variants
+	patron?: { [patronName: string]: FilterState }; // Tri-state patron filtering
+	adventurePacks?: { [adventurePackName: string]: FilterState }; // Tri-state adventure pack filtering
+	completed?: FilterState; // Tri-state: include completed, exclude completed, or no filter
+	heroic?: FilterState; // Tri-state: include Heroic quests (level 1-19)
+	epic?: FilterState; // Tri-state: include Epic quests (level 20-29)
+	legendary?: FilterState; // Tri-state: include Legendary quests (level 30+)
+	raids?: FilterState; // Tri-state: include raids, exclude raids, or no filter
+	onlyRaids?: boolean; // Show only raid quests (keep as boolean)
+	noEpicLegendaryVersions?: boolean; // Filter for quests without Epic/Legendary variants (keep as boolean)
 	sortBy?: 'name' | 'level' | 'baseFavor' | 'patron';
 	sortOrder?: 'asc' | 'desc';
 	search?: string;

@@ -271,8 +271,6 @@
 	>
 		<div 
 			class="modal-content" 
-			on:click|stopPropagation
-			on:keydown|stopPropagation
 			role="document"
 		>
 			<div class="modal-header">

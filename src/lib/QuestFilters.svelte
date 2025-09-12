@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { filters, quests } from '$lib/questStore.js';
 	import { derived } from 'svelte/store';
-	import type { QuestFilters } from '$lib/types.js';
+	import type { QuestFilters, FilterState } from '$lib/types.js';
 	import ToggleButton from './ToggleButton.svelte';
+	import TriStateToggle from './TriStateToggle.svelte';
 
 	// Derive unique values for filter options
 	const filterOptions = derived(quests, ($quests) => ({
@@ -66,16 +67,27 @@
 	function handleOnlyRaidsChange() {
 		// When "Only Raids" is checked, automatically enable "Raids" filter
 		if (currentFilters.onlyRaids) {
-			currentFilters.raids = true;
+			currentFilters.raids = 'include';
 		}
 		updateFilters();
+	}
+
+	function getTriStateLabel(state: FilterState, baseName: string): string | null {
+		if (state === 'include') return `+${baseName}`;
+		if (state === 'exclude') return `-${baseName}`;
+		return null;
 	}
 
 	function clearFilters() {
 		currentFilters = {
 			sortBy: undefined,
 			sortOrder: undefined,
-			search: undefined
+			search: undefined,
+			heroic: undefined,
+			epic: undefined,
+			legendary: undefined,
+			completed: undefined,
+			patron: undefined
 		};
 		filters.set({});
 	}
@@ -220,10 +232,10 @@
 					</button>
 					{#if !levelFiltersExpanded}
 						{@const activeLevelFilters = [
-							currentFilters.heroic && 'Heroic',
-							currentFilters.epic && 'Epic', 
-							currentFilters.legendary && 'Legendary',
-							currentFilters.raids && 'Raids',
+							getTriStateLabel(currentFilters.heroic, 'Heroic'),
+							getTriStateLabel(currentFilters.epic, 'Epic'), 
+							getTriStateLabel(currentFilters.legendary, 'Legendary'),
+							getTriStateLabel(currentFilters.raids, 'Raids'),
 							currentFilters.onlyRaids && 'Only Raids',
 							currentFilters.noEpicLegendaryVersions && 'Unique only'
 						].filter(Boolean)}
@@ -238,63 +250,79 @@
 							<div class="tier-group">
 								<span class="filter-label">Quest Tier:</span>
 								<div class="quest-tier-filters">
-									<label class="tier-label">
-										<input
-											type="checkbox"
-											bind:checked={currentFilters.heroic}
-											on:change={updateFilters}
-										/>
-										<span class="tier-name heroic">Heroic (1-19)</span>
-									</label>
-									<label class="tier-label">
-										<input
-											type="checkbox"
-											bind:checked={currentFilters.epic}
-											on:change={updateFilters}
-										/>
-										<span class="tier-name epic">Epic (20-29)</span>
-									</label>
-									<label class="tier-label">
-										<input
-											type="checkbox"
-											bind:checked={currentFilters.legendary}
-											on:change={updateFilters}
-										/>
-										<span class="tier-name legendary">Legendary (30+)</span>
-									</label>
+									<TriStateToggle
+										value={currentFilters.heroic}
+										label="Heroic (1-19)"
+										colorClass="heroic"
+										onToggle={(value) => {
+											currentFilters.heroic = value;
+											updateFilters();
+										}}
+									/>
+									<TriStateToggle
+										value={currentFilters.epic}
+										label="Epic (20-29)"
+										colorClass="epic"
+										onToggle={(value) => {
+											currentFilters.epic = value;
+											updateFilters();
+										}}
+									/>
+									<TriStateToggle
+										value={currentFilters.legendary}
+										label="Legendary (30+)"
+										colorClass="legendary"
+										onToggle={(value) => {
+											currentFilters.legendary = value;
+											updateFilters();
+										}}
+									/>
 								</div>
 							</div>
 							<div class="type-group">
 								<span class="filter-label">Quest Type:</span>
 								<div class="quest-tier-filters">
-									<label class="tier-label">
-										<input
-											type="checkbox"
-											bind:checked={currentFilters.raids}
-											on:change={updateFilters}
-										/>
-										<span class="tier-name raid">Raids</span>
-									</label>
-									<label class="tier-label">
-										<input
-											type="checkbox"
-											bind:checked={currentFilters.onlyRaids}
-											on:change={handleOnlyRaidsChange}
-										/>
-										<span class="tier-name only-raids">Only Raids</span>
-									</label>
+									<TriStateToggle
+										value={currentFilters.raids}
+										label="Raids"
+										colorClass="raid"
+										onToggle={(value) => {
+											currentFilters.raids = value;
+											updateFilters();
+										}}
+									/>
+									<button
+										class="boolean-toggle {currentFilters.onlyRaids ? 'checked' : 'unchecked'}"
+										on:click={() => {
+											currentFilters.onlyRaids = !currentFilters.onlyRaids;
+											handleOnlyRaidsChange();
+										}}
+										title={currentFilters.onlyRaids ? 'Enabled: Only Raids' : 'Disabled: Only Raids'}
+										aria-label={currentFilters.onlyRaids ? 'Enabled: Only Raids' : 'Disabled: Only Raids'}
+									>
+										<div class="checkbox {currentFilters.onlyRaids ? 'checked' : 'unchecked'}">
+											<span class="checkbox-icon">{currentFilters.onlyRaids ? '✓' : ''}</span>
+										</div>
+										<span class="toggle-label only-raids">Only Raids</span>
+									</button>
 								</div>
 							</div>
 						</div>
 						<div class="unique-quests-section">
-							<label class="unique-quests-label">
-								<input
-									type="checkbox"
-									bind:checked={currentFilters.noEpicLegendaryVersions}
-									on:change={updateFilters}
-								/>
-								<span class="unique-quests-text">Only quests without Epic/Legendary versions</span>
-							</label>
+							<button
+								class="boolean-toggle {currentFilters.noEpicLegendaryVersions ? 'checked' : 'unchecked'}"
+								on:click={() => {
+									currentFilters.noEpicLegendaryVersions = !currentFilters.noEpicLegendaryVersions;
+									updateFilters();
+								}}
+								title={currentFilters.noEpicLegendaryVersions ? 'Enabled: Only quests without Epic/Legendary versions' : 'Disabled: Only quests without Epic/Legendary versions'}
+								aria-label={currentFilters.noEpicLegendaryVersions ? 'Enabled: Only quests without Epic/Legendary versions' : 'Disabled: Only quests without Epic/Legendary versions'}
+							>
+								<div class="checkbox {currentFilters.noEpicLegendaryVersions ? 'checked' : 'unchecked'}">
+									<span class="checkbox-icon">{currentFilters.noEpicLegendaryVersions ? '✓' : ''}</span>
+								</div>
+								<span class="toggle-label">Only quests without Epic/Legendary versions</span>
+							</button>
 						</div>
 					</div>
 				{/if}
@@ -313,24 +341,35 @@
 						>
 							{patronsExpanded ? '▼' : '▶'}
 						</button>
-						{#if !patronsExpanded && currentFilters.patron && currentFilters.patron.length > 0}
-							<span class="filter-count">({currentFilters.patron.length} selected)</span>
+						{#if !patronsExpanded && currentFilters.patron}
+							{@const activePatronFilters = Object.entries(currentFilters.patron).filter(([_, state]) => state !== undefined)}
+							{#if activePatronFilters.length > 0}
+								<span class="filter-count">({activePatronFilters.length} active)</span>
+							{/if}
 						{/if}
 					</div>
 					{#if patronsExpanded}
 						<div class="patron-list">
 							{#each $filterOptions.patrons as patron}
-								<label class="patron-label">
-									<input
-										type="checkbox"
-										checked={currentFilters.patron?.includes(patron) || false}
-										on:change={() => {
-											currentFilters.patron = toggleArrayFilter(currentFilters.patron, patron);
-											updateFilters();
-										}}
-									/>
-									<span class="patron-name">{patron}</span>
-								</label>
+								<TriStateToggle
+									value={currentFilters.patron?.[patron]}
+									label={patron}
+									onToggle={(value) => {
+										if (!currentFilters.patron) {
+											currentFilters.patron = {};
+										}
+										if (value === undefined) {
+											delete currentFilters.patron[patron];
+											// If no patrons are filtered, clear the object
+											if (Object.keys(currentFilters.patron).length === 0) {
+												currentFilters.patron = undefined;
+											}
+										} else {
+											currentFilters.patron[patron] = value;
+										}
+										updateFilters();
+									}}
+								/>
 							{/each}
 						</div>
 					{/if}
@@ -339,11 +378,14 @@
 
 			<div class="filter-group">
 				<span class="filter-label">Completion Status:</span>
-				<select bind:value={currentFilters.completed} on:change={updateFilters}>
-					<option value={undefined}>All</option>
-					<option value={true}>Completed</option>
-					<option value={false}>Not Completed</option>
-				</select>
+				<TriStateToggle
+					value={currentFilters.completed}
+					label="Completed"
+					onToggle={(value) => {
+						currentFilters.completed = value;
+						updateFilters();
+					}}
+				/>
 			</div>
 
 			<div class="filter-group">
@@ -452,36 +494,25 @@
 
 	.patron-list {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 0.25rem 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 0.5rem;
 		margin-left: 1rem;
 		margin-top: 0.5rem;
+		max-height: 400px;
+		overflow-y: auto;
 	}
 
-	.patron-label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-		padding: 0.25rem 0.5rem;
-		border-radius: 4px;
-		transition: background-color 0.2s ease;
-		color: #b0b0b0;
-		font-size: 0.9rem;
+	/* Responsive breakpoints for patron columns */
+	@media (min-width: 768px) {
+		.patron-list {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
-	.patron-label:hover {
-		background-color: #404040;
-	}
-
-	.patron-label input[type='checkbox'] {
-		margin: 0;
-		cursor: pointer;
-		accent-color: #d4af37;
-	}
-
-	.patron-name {
-		flex: 1;
+	@media (min-width: 1200px) {
+		.patron-list {
+			grid-template-columns: repeat(3, 1fr);
+		}
 	}
 
 	.filter-count {
@@ -663,23 +694,12 @@
 		font-weight: 500;
 	}
 
-	.tier-name.heroic {
-		color: #10b981; /* Green for Heroic */
-	}
-
-	.tier-name.epic {
-		color: #a855f7; /* Purple for Epic */
-	}
-
-	.tier-name.legendary {
-		color: #ea580c; /* Darker orange for Legendary */
-	}
-
 	.tier-name.raid {
 		color: #dc2626; /* Red for Raids */
 	}
 
-	.tier-name.only-raids {
+	.tier-name.only-raids,
+	.toggle-label.only-raids {
 		color: #b91c1c; /* Darker red for Only Raids */
 		font-weight: 600;
 	}
@@ -723,16 +743,67 @@
 		transition: background-color 0.2s ease;
 	}
 
-	.unique-quests-label:hover {
-		background: rgba(212, 175, 55, 0.1);
-	}
-
-	.unique-quests-text {
-		font-weight: 500;
+	.boolean-toggle {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		padding: 0.25rem 0;
+		border: none;
+		background: transparent;
 		color: #e0e0e0;
+		cursor: pointer;
+		font-size: 0.9rem;
+		width: 100%;
+		box-sizing: border-box;
+		text-align: left;
 	}
 
-	.unique-quests-label input[type='checkbox'] {
-		margin: 0;
+	.boolean-toggle:hover .checkbox {
+		border-color: #d4af37;
+		background: rgba(212, 175, 55, 0.05);
+	}
+
+	.boolean-toggle .checkbox {
+		width: 16px;
+		height: 16px;
+		border: 2px solid #555;
+		border-radius: 3px;
+		background: #1a1a1a;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s ease;
+		position: relative;
+		flex-shrink: 0;
+		margin-top: 1px;
+	}
+
+	.boolean-toggle .checkbox.unchecked {
+		border-color: #555;
+		background: #1a1a1a;
+	}
+
+	.boolean-toggle .checkbox.checked {
+		border-color: #10b981;
+		background: #10b981;
+	}
+
+	.boolean-toggle .checkbox-icon {
+		font-weight: bold;
+		font-size: 12px;
+		line-height: 1;
+		color: white;
+	}
+
+	.boolean-toggle .toggle-label {
+		font-weight: 400;
+		user-select: none;
+		flex: 1;
+		word-break: break-word;
+		line-height: 1.3;
+		overflow-wrap: break-word;
+		hyphens: auto;
+		white-space: normal;
+		width: 0;
 	}
 </style>
