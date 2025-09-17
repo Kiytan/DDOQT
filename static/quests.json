@@ -3,7 +3,7 @@
     "id": "the_grotto",
     "name": "The Grotto",
     "level": 1,
-    "baseFavor": 5,
+    "baseFavor": 0,
     "patron": "The Free Agents",
     "adventurePack": "Free to Play"
   },
@@ -74,14 +74,6 @@
   {
     "id": "hall_of_the_mark",
     "name": "Hall of the Mark",
-    "level": 1,
-    "baseFavor": 5,
-    "patron": "The Free Agents",
-    "adventurePack": "Free to Play"
-  },
-  {
-    "id": "the_curse_of_the_five_fangs",
-    "name": "The Curse of the Five Fangs",
     "level": 1,
     "baseFavor": 5,
     "patron": "The Free Agents",
