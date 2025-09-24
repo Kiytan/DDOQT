@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { questStats, quests, completedQuests, calculateFavor } from '$lib/questStore.js';
+	import { questStats, quests, completedQuests, calculateFavor, filteredQuests } from '$lib/questStore.js';
 	import ToggleButton from './ToggleButton.svelte';
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
@@ -102,6 +102,49 @@
 
 		return allEarnedRewards.sort((a, b) => a.favorRequired - b.favorRequired);
 	})();
+
+	// Calculate maximum possible favor and remaining favor for currently filtered quests
+	const filteredQuestFavorStats = derived([filteredQuests, completedQuests], ([$filteredQuests, $completed]) => {
+		// Group filtered quests by base quest ID
+		const questGroups = new Map<string, Quest[]>();
+		$filteredQuests.forEach((quest) => {
+			const groupKey = quest.baseQuestId || quest.id;
+			if (!questGroups.has(groupKey)) {
+				questGroups.set(groupKey, []);
+			}
+			questGroups.get(groupKey)!.push(quest);
+		});
+
+		let maxPossibleFavor = 0;
+		let currentEarnedFavor = 0;
+
+		// Calculate favor for each quest group
+		Array.from(questGroups.values()).forEach((questGroup) => {
+			// Get the highest base favor from any variant in this group for max possible
+			const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
+			maxPossibleFavor += calculateFavor(highestBaseFavor, 'Elite');
+
+			// Find highest earned favor from any completed variant in this group
+			const completedInGroup = questGroup
+				.map((quest) => ({ quest, completion: $completed[quest.id] }))
+				.filter((item) => item.completion);
+
+			if (completedInGroup.length > 0) {
+				const highestGroupFavor = Math.max(
+					...completedInGroup.map((item) =>
+						calculateFavor(item.quest.baseFavor, item.completion.difficulty)
+					)
+				);
+				currentEarnedFavor += highestGroupFavor;
+			}
+		});
+
+		return {
+			maxPossible: maxPossibleFavor,
+			currentEarned: currentEarnedFavor,
+			remaining: maxPossibleFavor - currentEarnedFavor
+		};
+	});
 </script>
 
 <div class="stats-container">
@@ -128,6 +171,11 @@
 				<div class="stat-card">
 					<div class="stat-value">{$questStats.completionPercentage}%</div>
 					<div class="stat-label">Completion Rate</div>
+				</div>
+
+				<div class="stat-card">
+					<div class="stat-value">{$filteredQuestFavorStats.currentEarned}/{$filteredQuestFavorStats.maxPossible}</div>
+					<div class="stat-label">Selected Total Favor</div>
 				</div>
 
 				<div class="stat-card">
@@ -201,8 +249,8 @@
 
 	.stats-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+		gap: 0.75rem;
 		margin-bottom: 1rem;
 	}
 
@@ -314,6 +362,25 @@
 		.stats-container {
 			margin-top: 1rem;
 			margin-bottom: 0;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.stats-grid {
+			grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+			gap: 0.5rem;
+		}
+
+		.stat-card {
+			padding: 0.5rem;
+		}
+
+		.stat-value {
+			font-size: 1.2rem;
+		}
+
+		.stat-label {
+			font-size: 0.75rem;
 		}
 	}
 
