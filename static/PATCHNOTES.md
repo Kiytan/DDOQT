@@ -1,6 +1,30 @@
 # DDO Quest Tracker - Patch Notes
 
-New Test Version
+## Version 2.3.0 - October 2025
+
+### New Features
+
+**Saga Progress Tracking**:
+- Added a separate section for keeping track of sagas, as well as a button to quickly filter to show only those saga quests
+
+**Wiki links added to Patrons**
+
+### Storage & Data Management
+
+**Local Storage**:
+- The site will now save your progress in your browser's localstorage, so you no longer need to keep the Hash.
+- Export/Import function still available for sharing progress between devices/with friends
+
+**Data Updates**:
+- Keepers of the Feather have been updated to Keepers of Barovia everywhere
+
+### UI/UX Improvements
+- Patron Favor Progress now collapsed by default
+
+### License
+- Updated readme to accurately reflect the GPLv3 license
+
+---
 
 ## Version 2.2.0 - September 2025
 ### Major Update: Tri-State Toggles

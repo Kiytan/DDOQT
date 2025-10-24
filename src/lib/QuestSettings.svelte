@@ -60,11 +60,6 @@
 		}
 	}
 
-	function loadHash() {
-		// This function is no longer needed with localStorage
-		// Import functionality is handled by the ImportDialog
-	}
-
 	function resetProgress() {
 		if (confirm('Are you sure you want to reset all quest progress? This cannot be undone.')) {
 			completedQuests.set({});
