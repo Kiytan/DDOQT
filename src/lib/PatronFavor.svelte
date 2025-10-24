@@ -10,6 +10,7 @@
 	let lastQuestHash = '';
 	let favorTiers: any[] = [];
 	let patronExpansionState: Record<string, boolean> = {}; // Individual patron expansion states
+	let isPatronFavorExpanded = false; // Main panel expansion state - collapsed by default
 
 	// Load favor tiers data
 	onMount(async () => {
@@ -24,6 +25,11 @@
 	// Helper function to get favor data for a patron
 	function getPatronFavorData(patronName: string) {
 		return favorTiers.find((f) => f.name === patronName);
+	}
+
+	// Toggle main panel expansion
+	function toggleMainPanel() {
+		isPatronFavorExpanded = !isPatronFavorExpanded;
 	}
 
 	// Toggle individual patron expansion
@@ -150,13 +156,31 @@
 </script>
 
 <div class="patron-favor-panel">
-	<div class="favor-header">
-		<h3>Patron Favor Progress</h3>
+	<div
+		class="favor-header"
+		on:click={toggleMainPanel}
+		on:keydown={(e) => e.key === 'Enter' && toggleMainPanel()}
+		role="button"
+		tabindex="0"
+		aria-expanded={isPatronFavorExpanded}
+		aria-controls="patron-favor-content"
+	>
+		<div class="header-left">
+			<ToggleButton
+				isExpanded={isPatronFavorExpanded}
+				ariaControls="patron-favor-content"
+				size="medium"
+			/>
+			<h3>Patron Favor Progress</h3>
+		</div>
 		<div class="sort-controls">
 			<button
 				class="sort-toggle"
 				class:active={!sortByFavor}
-				on:click={toggleSort}
+				on:click={(e) => {
+					e.stopPropagation();
+					toggleSort();
+				}}
 				title="Sort alphabetically"
 			>
 				A-Z
@@ -164,7 +188,10 @@
 			<button
 				class="sort-toggle"
 				class:active={sortByFavor}
-				on:click={toggleSort}
+				on:click={(e) => {
+					e.stopPropagation();
+					toggleSort();
+				}}
 				title="Sort by earned favor"
 			>
 				Favor
@@ -172,8 +199,9 @@
 		</div>
 	</div>
 
-	<div class="patron-list">
-		{#each sortedPatronFavor as patron (patron.patron)}
+	{#if isPatronFavorExpanded}
+		<div class="patron-list" id="patron-favor-content">
+			{#each sortedPatronFavor as patron (patron.patron)}
 			<div class="patron-card" class:total-favor={isTotalFavorPatron(patron.patron)}>
 				<div
 					class="patron-header"
@@ -237,8 +265,9 @@
 					</div>
 				{/if}
 			</div>
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -265,6 +294,20 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 1rem;
+		cursor: pointer;
+		padding: 0.25rem;
+		border-radius: 6px;
+		transition: background-color 0.2s ease;
+	}
+
+	.favor-header:hover {
+		background-color: rgba(212, 175, 55, 0.1);
+	}
+
+	.header-left {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.sort-controls {

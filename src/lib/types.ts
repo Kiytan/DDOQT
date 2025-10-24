@@ -22,6 +22,7 @@ export interface QuestFilters {
 	raids?: FilterState; // Tri-state: include raids, exclude raids, or no filter
 	onlyRaids?: boolean; // Show only raid quests (keep as boolean)
 	noEpicLegendaryVersions?: boolean; // Filter for quests without Epic/Legendary variants (keep as boolean)
+	sagaQuestIds?: string[]; // Filter to show only specific quest IDs (for saga filtering)
 	sortBy?: 'name' | 'level' | 'baseFavor' | 'patron';
 	sortOrder?: 'asc' | 'desc';
 	search?: string;
