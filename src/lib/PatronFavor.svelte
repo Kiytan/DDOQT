@@ -10,6 +10,7 @@
 	let lastQuestHash = '';
 	let favorTiers: any[] = [];
 	let patronExpansionState: Record<string, boolean> = {}; // Individual patron expansion states
+	let isPatronFavorExpanded = false; // Main panel expansion state - collapsed by default
 
 	// Load favor tiers data
 	onMount(async () => {
@@ -24,6 +25,21 @@
 	// Helper function to get favor data for a patron
 	function getPatronFavorData(patronName: string) {
 		return favorTiers.find((f) => f.name === patronName);
+	}
+
+	// Helper function to get wiki link for a patron
+	function getWikiLink(patronName: string): string {
+		const favorData = favorTiers.find((f) => f.name === patronName);
+		if (favorData && favorData.link) {
+			// Replace spaces with underscores for wiki URLs
+			return `https://ddowiki.com/page/${favorData.link.replace(/ /g, '_')}`;
+		}
+		return '';
+	}
+
+	// Toggle main panel expansion
+	function toggleMainPanel() {
+		isPatronFavorExpanded = !isPatronFavorExpanded;
 	}
 
 	// Toggle individual patron expansion
@@ -150,13 +166,31 @@
 </script>
 
 <div class="patron-favor-panel">
-	<div class="favor-header">
-		<h3>Patron Favor Progress</h3>
+	<div
+		class="favor-header"
+		on:click={toggleMainPanel}
+		on:keydown={(e) => e.key === 'Enter' && toggleMainPanel()}
+		role="button"
+		tabindex="0"
+		aria-expanded={isPatronFavorExpanded}
+		aria-controls="patron-favor-content"
+	>
+		<div class="header-left">
+			<ToggleButton
+				isExpanded={isPatronFavorExpanded}
+				ariaControls="patron-favor-content"
+				size="medium"
+			/>
+			<h3>Patron Favor Progress</h3>
+		</div>
 		<div class="sort-controls">
 			<button
 				class="sort-toggle"
 				class:active={!sortByFavor}
-				on:click={toggleSort}
+				on:click={(e) => {
+					e.stopPropagation();
+					toggleSort();
+				}}
 				title="Sort alphabetically"
 			>
 				A-Z
@@ -164,7 +198,10 @@
 			<button
 				class="sort-toggle"
 				class:active={sortByFavor}
-				on:click={toggleSort}
+				on:click={(e) => {
+					e.stopPropagation();
+					toggleSort();
+				}}
 				title="Sort by earned favor"
 			>
 				Favor
@@ -172,8 +209,10 @@
 		</div>
 	</div>
 
-	<div class="patron-list">
-		{#each sortedPatronFavor as patron (patron.patron)}
+	{#if isPatronFavorExpanded}
+		<div class="patron-list" id="patron-favor-content">
+			{#each sortedPatronFavor as patron (patron.patron)}
+			{@const wikiLink = getWikiLink(patron.patron)}
 			<div class="patron-card" class:total-favor={isTotalFavorPatron(patron.patron)}>
 				<div
 					class="patron-header"
@@ -184,18 +223,18 @@
 					aria-expanded={patronExpansionState[patron.patron]}
 					aria-controls="patron-details-{patron.patron}"
 				>
-					<h4 class="patron-name">{getDisplayName(patron.patron)}</h4>
-					<div class="patron-header-right">
-						<div class="patron-stats">
-							<span class="patron-favor">{patron.earned}/{patron.total}</span>
-							<span class="patron-percentage">{patron.percentage}%</span>
-						</div>
-						<ToggleButton
-							isExpanded={patronExpansionState[patron.patron] || false}
-							ariaControls="patron-details-{patron.patron}"
-							size="small"
-						/>
+				<h4 class="patron-name">{getDisplayName(patron.patron)}</h4>
+				<div class="patron-header-right">
+					<div class="patron-stats">
+						<span class="patron-favor">{patron.earned}/{patron.total}</span>
+						<span class="patron-percentage">{patron.percentage}%</span>
 					</div>
+					<ToggleButton
+						isExpanded={patronExpansionState[patron.patron] || false}
+						ariaControls="patron-details-{patron.patron}"
+						size="small"
+					/>
+				</div>
 				</div>
 				<div class="patron-progress">
 					<div class="patron-progress-bar">
@@ -207,7 +246,20 @@
 					<div class="favor-details" id="patron-details-{patron.patron}">
 						{#if favorData}
 							<div class="favor-tiers">
-								<div class="favor-tiers-header">Favor Rewards</div>
+								<div class="favor-tiers-header">
+									<span>Favor Rewards</span>
+									{#if getWikiLink(patron.patron)}
+										<a 
+											href={getWikiLink(patron.patron)} 
+											class="patron-wiki-link"
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											<img src="/ddowiki_favicon.png" alt="DDO Wiki" class="patron-wiki-favicon" />
+											Wiki
+										</a>
+									{/if}
+								</div>
 								{#each favorData.tiers as tier}
 									<div
 										class="favor-tier"
@@ -237,8 +289,9 @@
 					</div>
 				{/if}
 			</div>
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -265,6 +318,20 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 1rem;
+		cursor: pointer;
+		padding: 0.25rem;
+		border-radius: 6px;
+		transition: background-color 0.2s ease;
+	}
+
+	.favor-header:hover {
+		background-color: rgba(212, 175, 55, 0.1);
+	}
+
+	.header-left {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.sort-controls {
@@ -355,6 +422,26 @@
 		gap: 0.5rem;
 	}
 
+	.patron-name-container {
+		flex: 1;
+	}
+
+	.patron-name-link {
+		text-decoration: none;
+		color: inherit;
+		display: inline-block;
+		transition: opacity 0.2s ease;
+	}
+
+	.patron-name-link:hover {
+		opacity: 0.8;
+		text-decoration: underline;
+	}
+
+	.patron-name-link:hover .patron-name {
+		color: #f0d060;
+	}
+
 	.patron-name {
 		margin: 0;
 		font-size: 0.9rem;
@@ -425,11 +512,14 @@
 	}
 
 	.favor-tiers-header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
 		font-weight: bold;
 		color: #d4af37;
 		margin-bottom: 0.75rem;
 		font-size: 0.9rem;
-		text-align: center;
 	}
 
 	.favor-tier {
@@ -496,8 +586,31 @@
 		color: #e0e0e0;
 		font-size: 0.8rem;
 		line-height: 1.4;
-		padding-left: 0.5rem;
-		border-left: 2px solid #444;
+	}
+
+	.patron-wiki-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		color: #4a9eff;
+		text-decoration: none;
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+		background: rgba(74, 158, 255, 0.1);
+		transition: all 0.2s;
+		margin-right: 0.5rem;
+	}
+
+	.patron-wiki-link:hover {
+		background: rgba(74, 158, 255, 0.2);
+		color: #6bb3ff;
+	}
+
+	.patron-wiki-favicon {
+		width: 14px;
+		height: 14px;
+		object-fit: contain;
 	}
 
 	.no-favor-data {

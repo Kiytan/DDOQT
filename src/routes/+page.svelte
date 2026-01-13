@@ -1,19 +1,27 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { loadQuests, loadCompletedFromHash } from '$lib/questStore.js';
+	import { 
+		loadQuests, 
+		loadCompletedFromStorage, 
+		checkForHashImport,
+		pendingHashImport 
+	} from '$lib/questStore.js';
 	import QuestStats from '$lib/QuestStats.svelte';
 	import QuestFilters from '$lib/QuestFilters.svelte';
 	import QuestList from '$lib/QuestList.svelte';
 	import PatronFavor from '$lib/PatronFavor.svelte';
+	import SagaProgress from '$lib/SagaProgress.svelte';
 	import AdventurePackFilters from '$lib/AdventurePackFilters.svelte';
 	import QuestSettings from '$lib/QuestSettings.svelte';
+	import ImportDialog from '$lib/ImportDialog.svelte';
 
 	let showBackToTop = false;
 
 	onMount(() => {
 		const initializeApp = async () => {
 			await loadQuests();
-			loadCompletedFromHash();
+			loadCompletedFromStorage();
+			checkForHashImport();
 		};
 
 		initializeApp();
@@ -66,9 +74,15 @@
 
 		<div class="favor-section">
 			<PatronFavor />
+			<SagaProgress />
 		</div>
 	</div>
 </main>
+
+<!-- Import dialog for URL hash data -->
+{#if $pendingHashImport}
+	<ImportDialog />
+{/if}
 
 {#if showBackToTop}
 	<button

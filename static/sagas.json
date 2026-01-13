@@ -1,0 +1,253 @@
+[
+  {
+    "name": "The Pirates of the Thunder Sea",
+    "tier": "Heroic",
+    "level": "4-7",
+    "questCount": 10,
+    "questIds": [
+      "irestone_inlet",
+      "the_legend_of_twotoed_tobias",
+      "prove_your_worth",
+      "ghost_of_a_chance",
+      "the_troglodytes_get",
+      "old_grey_garl",
+      "the_black_loch_level_7",
+      "storm_the_beaches_level_7",
+      "bargain_of_blood_level_7",
+      "the_tide_turns_level_7"
+    ]
+  },
+  {
+    "name": "Sinister Secret of Saltmarsh",
+    "tier": "Heroic",
+    "level": "3",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Fables of the Feywild",
+    "tier": "Heroic",
+    "level": "5-6",
+    "questCount": 13,
+    "questIds": []
+  },
+  {
+    "name": "Isle of Dread",
+    "tier": "Heroic",
+    "level": "7-8",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "The Chill of Ravenloft",
+    "tier": "Heroic",
+    "level": "8",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Mists of Ravenloft",
+    "tier": "Heroic",
+    "level": "10-12",
+    "questCount": 12,
+    "questIds": [
+      "into_the_mists_level_10",
+      "death_house_level_10",
+      "freshbaked_dreams_level_10",
+      "an_invitation_to_dinner_level_10",
+      "oath_of_vengeance_level_11",
+      "a_raven_at_the_door_level_11",
+      "mad_tea_party_level_11",
+      "sealed_in_amber_level_11",
+      "ravens_bane_level_12",
+      "the_final_vintage_level_12",
+      "wrath_of_the_earth_level_12",
+      "sunrise_level_12"
+    ]
+  },
+  {
+    "name": "Magic of Myth Drannor",
+    "tier": "Heroic",
+    "level": "13",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "In the Wastes of Gianthold",
+    "tier": "Heroic",
+    "level": "13-14",
+    "questCount": 10,
+    "questIds": [
+      "foundation_of_discord_level_13",
+      "feast_or_famine_level_13",
+      "the_maze_of_madness_level_13",
+      "a_cry_for_help_level_13",
+      "trial_by_fire_level_13",
+      "madstone_crater",
+      "the_prison_of_the_planes",
+      "the_crucible_level_14",
+      "a_cabal_for_one",
+      "gianthold_tor"
+    ]
+  },
+  {
+    "name": "Cogs Explorer Dungeons",
+    "tier": "Heroic",
+    "level": "15-16",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Masterminds of Sharn",
+    "tier": "Heroic",
+    "level": "15-16",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Perils of Cormyr",
+    "tier": "Heroic",
+    "level": "15-19",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Honor of the Huntsilvers",
+    "tier": "Heroic",
+    "level": "16-19",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Vecna Unleashed",
+    "tier": "Heroic",
+    "level": "18",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "The Pirates of the Thunder Sea",
+    "tier": "Epic",
+    "level": "20-25",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Menace of the Underdark",
+    "tier": "Epic",
+    "level": "21-23",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "The End of Eberron",
+    "tier": "Epic",
+    "level": "21-23",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "The Planeswalker's Path",
+    "tier": "Epic",
+    "level": "21-26",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Perils of Cormyr",
+    "tier": "Epic",
+    "level": "21-27",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Honor of the Huntsilvers",
+    "tier": "Epic",
+    "level": "23-27",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "In the Wastes of Gianthold",
+    "tier": "Epic",
+    "level": "24",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Mists of Ravenloft",
+    "tier": "Legendary",
+    "level": "31-32",
+    "questCount": 12,
+    "questIds": [
+      "into_the_mists_level_31",
+      "death_house_level_31",
+      "freshbaked_dreams_level_31",
+      "an_invitation_to_dinner_level_32",
+      "oath_of_vengeance_level_31",
+      "a_raven_at_the_door_level_31",
+      "mad_tea_party_level_31",
+      "sealed_in_amber_level_31",
+      "ravens_bane_level_31",
+      "the_final_vintage_level_31",
+      "wrath_of_the_earth_level_32",
+      "sunrise_level_31"
+    ]
+  },
+  {
+    "name": "Cogs Explorer Dungeons",
+    "tier": "Legendary",
+    "level": "32",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Masterminds of Sharn",
+    "tier": "Legendary",
+    "level": "32",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Fables of the Feywild",
+    "tier": "Legendary",
+    "level": "32",
+    "questCount": 13,
+    "questIds": []
+  },
+  {
+    "name": "Sinister Secret of Saltmarsh",
+    "tier": "Legendary",
+    "level": "32",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Isle of Dread",
+    "tier": "Legendary",
+    "level": "33-34",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Vecna Unleashed",
+    "tier": "Legendary",
+    "level": "34",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "Magic of Myth Drannor",
+    "tier": "Legendary",
+    "level": "35",
+    "questCount": 10,
+    "questIds": []
+  },
+  {
+    "name": "The Chill of Ravenloft",
+    "tier": "Legendary",
+    "level": "36",
+    "questCount": 10,
+    "questIds": []
+  }
+]

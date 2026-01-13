@@ -32,8 +32,11 @@ export function calculateFavor(
 // Quest data store
 export const quests = writable<Quest[]>([]);
 
-// Completed quests store (synced with URL hash)
+// Completed quests store (synced with localStorage, importable from URL hash)
 export const completedQuests = writable<CompletedQuests>({});
+
+// Store for tracking if there's a hash to import
+export const pendingHashImport = writable<CompletedQuests | null>(null);
 
 // Filters store
 export const filters = writable<QuestFilters>({});
@@ -75,136 +78,220 @@ function initializeDefaultFilters(questData: Quest[]): void {
 	});
 }
 
-// Load completed quests from URL hash
-export function loadCompletedFromHash(): void {
-	if (typeof window === 'undefined') return;
+const STORAGE_KEY = 'ddoqt-completed-quests';
 
-	const hash = window.location.hash.slice(1);
-	if (hash) {
-		try {
-			// Limit hash size to prevent memory exhaustion
-			if (hash.length > 75000) {
-				// ~75KB limit for compressed data
-				console.warn('URL hash too large, ignoring');
-				completedQuests.set({});
-				return;
-			}
-
-			// Try LZ-string decompression first (new format)
-			let decoded: string;
-			try {
-				decoded = LZString.decompressFromEncodedURIComponent(hash) || '';
-				if (!decoded) {
-					throw new Error('LZ-string decompression failed');
-				}
-			} catch (lzError) {
-				// Fallback to base64 decoding for backward compatibility
-				try {
-					// Validate hash format before attempting to decode
-					if (!/^[A-Za-z0-9+/]*={0,2}$/.test(hash)) {
-						console.warn('Invalid hash format');
-						completedQuests.set({});
-						return;
-					}
-					decoded = atob(hash);
-				} catch (base64Error) {
-					console.warn(
-						'Failed to decode hash with both LZ-string and base64:',
-						lzError,
-						base64Error
-					);
-					completedQuests.set({});
-					return;
-				}
-			}
-
-			// Additional validation on decoded content
-			if (decoded.length > 50000) {
-				// ~50KB limit on JSON
-				console.warn('Decoded hash content too large, ignoring');
-				completedQuests.set({});
-				return;
-			}
-
-			const parsed = JSON.parse(decoded);
-
-			// Validate that parsed data is an object
-			if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-				console.warn('Invalid hash data structure, expected object');
-				completedQuests.set({});
-				return;
-			}
-
-			// Validate completed quest structure
-			const completed: CompletedQuests = {};
-			for (const [questId, completion] of Object.entries(parsed)) {
-				// Validate quest ID format
-				if (typeof questId !== 'string' || questId.length > 100) {
-					console.warn(`Invalid quest ID: ${questId}`);
-					continue;
-				}
-
-				// Validate completion object
-				if (
-					typeof completion === 'object' &&
-					completion !== null &&
-					'difficulty' in completion &&
-					'completedDate' in completion
-				) {
-					const comp = completion as any;
-
-					// Validate difficulty
-					if (['Normal', 'Hard', 'Elite', 'Reaper'].includes(comp.difficulty)) {
-						completed[questId] = {
-							difficulty: comp.difficulty,
-							completedDate: comp.completedDate
-						};
-					}
-				}
-			}
-
-			completedQuests.set(completed);
-		} catch (error) {
-			console.error('Failed to parse hash:', error);
-			completedQuests.set({});
-		}
-	}
-}
-
-// Save completed quests to URL hash
-export function saveCompletedToHash(completed: CompletedQuests): void {
+// Load completed quests from localStorage
+export function loadCompletedFromStorage(): void {
 	if (typeof window === 'undefined') return;
 
 	try {
-		// Validate input before encoding
-		if (typeof completed !== 'object' || completed === null) {
-			console.warn('Invalid completed quests data, not saving to hash');
-			return;
+		const stored = localStorage.getItem(STORAGE_KEY);
+		if (stored) {
+			const parsed = JSON.parse(stored);
+			
+			// Validate structure
+			if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+				const validated: CompletedQuests = {};
+				
+				for (const [questId, completion] of Object.entries(parsed)) {
+					if (
+						typeof questId === 'string' &&
+						typeof completion === 'object' &&
+						completion !== null &&
+						'difficulty' in completion &&
+						'completedDate' in completion
+					) {
+						const comp = completion as any;
+						if (['Normal', 'Hard', 'Elite', 'Reaper'].includes(comp.difficulty)) {
+							validated[questId] = {
+								difficulty: comp.difficulty,
+								completedDate: comp.completedDate
+							};
+						}
+					}
+				}
+				
+				completedQuests.set(validated);
+				return;
+			}
 		}
-
-		const json = JSON.stringify(completed);
-
-		// Prevent excessively large URLs
-		if (json.length > 50000) {
-			// ~50KB limit
-			console.warn('Completed quests data too large for URL hash');
-			return;
-		}
-
-		// Use LZ-string compression for better compression ratio
-		const compressed = LZString.compressToEncodedURIComponent(json);
-
-		// Additional check on final hash size (LZ-string typically achieves 70-90% compression)
-		if (compressed.length > 75000) {
-			// ~75KB limit for compressed data
-			console.warn('Compressed hash too large for URL');
-			return;
-		}
-
-		window.location.hash = compressed;
 	} catch (error) {
-		console.error('Failed to save to hash:', error);
+		console.error('Failed to load from localStorage:', error);
 	}
+	
+	completedQuests.set({});
+}
+
+// Save completed quests to localStorage
+export function saveCompletedToStorage(completed: CompletedQuests): void {
+	if (typeof window === 'undefined') return;
+
+	try {
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+	} catch (error) {
+		console.error('Failed to save to localStorage:', error);
+	}
+}
+
+// Check for URL hash and parse it (doesn't auto-import)
+export function checkForHashImport(): void {
+	if (typeof window === 'undefined') return;
+
+	const hash = window.location.hash.slice(1);
+	if (!hash) {
+		pendingHashImport.set(null);
+		return;
+	}
+
+	try {
+		// Limit hash size to prevent memory exhaustion
+		if (hash.length > 75000) {
+			console.warn('URL hash too large, ignoring');
+			pendingHashImport.set(null);
+			return;
+		}
+
+		// Try LZ-string decompression first (new format)
+		let decoded: string;
+		try {
+			decoded = LZString.decompressFromEncodedURIComponent(hash) || '';
+			if (!decoded) {
+				throw new Error('LZ-string decompression failed');
+			}
+		} catch (lzError) {
+			// Fallback to base64 decoding for backward compatibility
+			try {
+				// Validate hash format before attempting to decode
+				if (!/^[A-Za-z0-9+/]*={0,2}$/.test(hash)) {
+					console.warn('Invalid hash format');
+					pendingHashImport.set(null);
+					return;
+				}
+				decoded = atob(hash);
+			} catch (base64Error) {
+				console.warn(
+					'Failed to decode hash with both LZ-string and base64:',
+					lzError,
+					base64Error
+				);
+				pendingHashImport.set(null);
+				return;
+			}
+		}
+
+		// Additional validation on decoded content
+		if (decoded.length > 50000) {
+			console.warn('Decoded hash content too large, ignoring');
+			pendingHashImport.set(null);
+			return;
+		}
+
+		const parsed = JSON.parse(decoded);
+
+		// Validate that parsed data is an object
+		if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+			console.warn('Invalid hash data structure, expected object');
+			pendingHashImport.set(null);
+			return;
+		}
+
+		// Validate completed quest structure
+		const completed: CompletedQuests = {};
+		for (const [questId, completion] of Object.entries(parsed)) {
+			// Validate quest ID format
+			if (typeof questId !== 'string' || questId.length > 100) {
+				console.warn(`Invalid quest ID: ${questId}`);
+				continue;
+			}
+
+			// Validate completion object
+			if (
+				typeof completion === 'object' &&
+				completion !== null &&
+				'difficulty' in completion &&
+				'completedDate' in completion
+			) {
+				const comp = completion as any;
+
+				// Validate difficulty
+				if (['Normal', 'Hard', 'Elite', 'Reaper'].includes(comp.difficulty)) {
+					completed[questId] = {
+						difficulty: comp.difficulty,
+						completedDate: comp.completedDate
+					};
+				}
+			}
+		}
+
+		// Set the pending import data (doesn't auto-import)
+		pendingHashImport.set(completed);
+	} catch (error) {
+		console.error('Failed to parse hash:', error);
+		pendingHashImport.set(null);
+	}
+}
+
+// Import data from pending hash
+export function importFromHash(merge: boolean = false): void {
+	pendingHashImport.subscribe((hashData) => {
+		if (!hashData) return;
+
+		if (merge) {
+			// Merge with existing data
+			completedQuests.update((current) => {
+				const merged = { ...current, ...hashData };
+				saveCompletedToStorage(merged);
+				return merged;
+			});
+		} else {
+			// Replace existing data
+			completedQuests.set(hashData);
+			saveCompletedToStorage(hashData);
+		}
+
+		// Clear the hash and pending import
+		pendingHashImport.set(null);
+		if (typeof window !== 'undefined') {
+			window.location.hash = '';
+		}
+	})();
+}
+
+// Cancel hash import
+export function cancelHashImport(): void {
+	pendingHashImport.set(null);
+	if (typeof window !== 'undefined') {
+		window.location.hash = '';
+	}
+}
+
+// Export current progress to URL hash
+export function exportToHash(): string {
+	let hash = '';
+	
+	completedQuests.subscribe((completed) => {
+		try {
+			const json = JSON.stringify(completed);
+			
+			if (json.length > 50000) {
+				console.warn('Completed quests data too large for URL hash');
+				return;
+			}
+
+			const compressed = LZString.compressToEncodedURIComponent(json);
+			
+			if (compressed.length > 75000) {
+				console.warn('Compressed hash too large for URL');
+				return;
+			}
+
+			hash = compressed;
+		} catch (error) {
+			console.error('Failed to create export hash:', error);
+		}
+	})();
+	
+	return hash;
 }
 
 // Toggle quest completion for a specific difficulty
@@ -226,7 +313,7 @@ export function toggleQuestCompletion(
 			};
 		}
 
-		saveCompletedToHash(newCompleted);
+		saveCompletedToStorage(newCompleted);
 		return newCompleted;
 	});
 }
@@ -236,6 +323,11 @@ export const filteredQuests = derived(
 	[quests, filters, completedQuests],
 	([$quests, $filters, $completed]) => {
 		let filtered = $quests.filter((quest) => {
+			// Saga quest ID filter - highest priority
+			if ($filters.sagaQuestIds && $filters.sagaQuestIds.length > 0) {
+				if (!$filters.sagaQuestIds.includes(quest.id)) return false;
+			}
+
 			// Search filter (quest name only)
 			if ($filters.search) {
 				const searchTerm = $filters.search.toLowerCase();
@@ -426,3 +518,26 @@ export const questStats = derived([quests, completedQuests], ([$quests, $complet
 		earnedFavor
 	};
 });
+
+// Apply saga filter - filters quests to show only those in a specific saga
+export function applySagaFilter(questIds: string[], tier: 'Heroic' | 'Epic' | 'Legendary'): void {
+	if (questIds.length === 0) {
+		// If no quest IDs, clear all filters
+		clearFilters();
+		return;
+	}
+
+	// Simply set the saga quest IDs filter - this will show ONLY these specific quests
+	filters.update((currentFilters) => ({
+		...currentFilters,
+		sagaQuestIds: questIds,
+		search: '' // Clear search when applying saga filter
+	}));
+}
+
+// Clear all filters
+export function clearFilters(): void {
+	quests.subscribe((questData) => {
+		initializeDefaultFilters(questData);
+	})();
+}

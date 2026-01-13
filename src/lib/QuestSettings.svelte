@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { completedQuests, saveCompletedToHash, loadCompletedFromHash } from '$lib/questStore.js';
+	import { completedQuests, exportToHash } from '$lib/questStore.js';
 	import ToggleButton from './ToggleButton.svelte';
 
-	let hashInput = '';
 	let showSaveSuccess = false;
-	let showLoadSuccess = false;
-	let showLoadError = false;
 	let isExpanded = false;
 	let showPatchNotes = false;
 	let patchNotesContent = '';
@@ -15,30 +12,32 @@
 		isExpanded = !isExpanded;
 	}
 
-	function saveHash() {
-		const currentHash = window.location.hash.substring(1);
-		hashInput = currentHash;
+	function exportProgress() {
+		const hash = exportToHash();
+		if (!hash) {
+			alert('Failed to create export URL');
+			return;
+		}
+
+		const url = `${window.location.origin}${window.location.pathname}#${hash}`;
 
 		// Try modern clipboard API first
 		if (navigator.clipboard && window.isSecureContext) {
 			navigator.clipboard
-				.writeText(currentHash)
+				.writeText(url)
 				.then(() => {
 					showSaveSuccess = true;
 					setTimeout(() => (showSaveSuccess = false), 2000);
 				})
 				.catch(() => {
-					// Fallback to legacy method
-					fallbackCopyToClipboard(currentHash);
+					fallbackCopyToClipboard(url);
 				});
 		} else {
-			// Fallback for older browsers or non-HTTPS
-			fallbackCopyToClipboard(currentHash);
+			fallbackCopyToClipboard(url);
 		}
 	}
 
 	function fallbackCopyToClipboard(text: string) {
-		// Create a temporary textarea element
 		const textArea = document.createElement('textarea');
 		textArea.value = text;
 		textArea.style.position = 'fixed';
@@ -61,30 +60,12 @@
 		}
 	}
 
-	function loadHash() {
-		if (!hashInput.trim()) {
-			showLoadError = true;
-			setTimeout(() => (showLoadError = false), 2000);
-			return;
-		}
-
-		try {
-			// Set the hash and load it
-			window.location.hash = hashInput.trim();
-			loadCompletedFromHash();
-			showLoadSuccess = true;
-			setTimeout(() => (showLoadSuccess = false), 2000);
-		} catch (error) {
-			showLoadError = true;
-			setTimeout(() => (showLoadError = false), 2000);
-		}
-	}
-
 	function resetProgress() {
 		if (confirm('Are you sure you want to reset all quest progress? This cannot be undone.')) {
 			completedQuests.set({});
-			saveCompletedToHash({});
-			hashInput = '';
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem('ddoqt-completed-quests');
+			}
 		}
 	}
 
@@ -208,39 +189,17 @@
 	{#if isExpanded}
 		<div class="settings-content" id="settings-content">
 			<div class="setting-group">
-				<h4>Save Progress</h4>
-				<p>Copy your progress hash to save your quest completions:</p>
-				<textarea
-					bind:value={hashInput}
-					placeholder="Your progress hash will appear here..."
-					class="hash-input"
-					readonly
-				></textarea>
-				<button on:click={saveHash} class="action-btn save-btn"> Copy Progress Hash </button>
+				<h4>Export Progress</h4>
+				<p>Create a shareable URL with your quest progress:</p>
+				<button on:click={exportProgress} class="action-btn save-btn"> 
+					Export & Copy URL 
+				</button>
 				{#if showSaveSuccess}
-					<div class="message success">Progress hash copied to clipboard!</div>
-				{:else if hashInput}
-					<div class="message info">
-						Hash shown above - you can manually copy it if automatic copy failed
-					</div>
+					<div class="message success">Shareable URL copied to clipboard!</div>
 				{/if}
-			</div>
-
-			<div class="setting-group">
-				<h4>Load Progress</h4>
-				<p>Paste a progress hash to restore your quest completions:</p>
-				<textarea
-					bind:value={hashInput}
-					placeholder="Paste your progress hash here..."
-					class="hash-input"
-				></textarea>
-				<button on:click={loadHash} class="action-btn load-btn"> Load Progress </button>
-				{#if showLoadSuccess}
-					<div class="message success">Progress loaded successfully!</div>
-				{/if}
-				{#if showLoadError}
-					<div class="message error">Invalid progress data. Please check your hash.</div>
-				{/if}
+				<div class="message info">
+					Share this URL with others or save it as a backup. To import someone else's progress, simply visit their shared URL.
+				</div>
 			</div>
 
 			<div class="setting-group">
