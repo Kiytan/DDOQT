@@ -1,5 +1,16 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.3.0 - January 2026
+### New Features
+- **Saga Progress Tracking**: Added saga progress display showing completion status for all DDO sagas
+- **Local Storage Persistence**: Quest progress is now automatically saved to local storage, keeping your progress between browser sessions
+- **URL Import/Export**: Share your progress with others via URL hash - import shared links while keeping local storage as the primary save method
+
+### Improvements
+- **Patron Favor Panel**: Fixed positioning to stay in place with other UI panels instead of scrolling with the page
+
+---
+
 ## Version 2.2.0 - September 2025
 ### Major Update: Tri-State Toggles
 - **Tri-State Filtering**: All major filters (quest tiers, completion status, patrons, raids, adventure packs, expansions) now use tri-state toggles (include/exclude/neutral) for more flexible filtering.

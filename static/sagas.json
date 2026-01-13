@@ -1,5 +1,23 @@
 [
   {
+    "name": "Sinister Secret of Saltmarsh",
+    "tier": "Heroic",
+    "level": "3",
+    "questCount": 10,
+    "questIds": [
+      "back_to_basics_level_3",
+      "the_haunting_of_saltmarsh_level_3",
+      "under_the_cover_of_darkness_level_3",
+      "what_sleeps_below_level_3",
+      "down_you_go_level_3",
+      "danger_at_dunwater_level_3",
+      "the_final_enemy_level_3",
+      "swim_at_your_own_risk_level_3",
+      "the_hijacked_haul_level_3",
+      "rest_for_the_night_level_3"
+    ]
+  },
+  {
     "name": "The Pirates of the Thunder Sea",
     "tier": "Heroic",
     "level": "4-7",
@@ -18,32 +36,66 @@
     ]
   },
   {
-    "name": "Sinister Secret of Saltmarsh",
-    "tier": "Heroic",
-    "level": "3",
-    "questCount": 10,
-    "questIds": []
-  },
-  {
     "name": "Fables of the Feywild",
     "tier": "Heroic",
     "level": "5-6",
     "questCount": 13,
-    "questIds": []
+    "questIds": [
+      "the_endless_revels_level_5",
+      "the_legend_of_the_lost_locket_level_5",
+      "make_believe_level_5",
+      "wake_me_up_inside_level_5",
+      "combatting_corruption_level_5",
+      "a_frosty_reception_level_5",
+      "witch_hunt_level_5",
+      "quid_pro_quo_level_6",
+      "needle_in_a_fey_stack_level_6",
+      "the_knight_who_cried_windmill_level_6",
+      "the_thornwright_level_6",
+      "immortality_lessons_level_6",
+      "the_icemount_curse_level_6"
+    ]
   },
   {
     "name": "Isle of Dread",
     "tier": "Heroic",
     "level": "7-8",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 12,
+    "questIds": [
+      "captive_of_the_hidden_god_level_7",
+      "the_curse_and_the_captive_crustacean_level_7",
+      "bullywugs_and_booby_traps_level_7",
+      "plundering_pirates_point_level_7",
+      "spiders_and_flies_level_7",
+      "the_stone_crypt_chronicle_level_7",
+      "the_trouble_with_tar_pits_level_7",
+      "trials_of_the_triceratops_level_7",
+      "whispers_of_return_level_7",
+      "wild_thing_level_7",
+      "all_hail_the_king_level_7",
+      "fall_of_the_forbidden_temple_level_8"
+    ]
   },
   {
     "name": "The Chill of Ravenloft",
     "tier": "Heroic",
     "level": "8",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "the_body_snatchers_level_8",
+      "the_proper_authorities_level_8",
+      "ends_and_means_level_8",
+      "a_light_in_the_attic_level_8",
+      "cold_snap_level_8",
+      "beneath_the_city_streets_level_8",
+      "locked_away_part_one_level_8",
+      "snowfall_and_sunlight_level_8",
+      "locked_away_part_two_level_8",
+      "a_miner_sacrifice_level_8",
+      "the_wish_level_8",
+      "special_delivery_level_8",
+      "zoo_creeper_level_8"
+    ]
   },
   {
     "name": "Mists of Ravenloft",
@@ -69,8 +121,22 @@
     "name": "Magic of Myth Drannor",
     "tier": "Heroic",
     "level": "13",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "ettercap_incursion_level_13",
+      "seeds_of_decay_level_13",
+      "the_safehold_level_13",
+      "death_hosts_this_banquet_level_13",
+      "oghmas_song_level_13",
+      "secrets_of_the_red_wizards_level_13",
+      "portal_to_below_level_13",
+      "book_burning_level_13",
+      "times_long_past_level_13",
+      "the_key_to_the_mythal_level_13",
+      "the_zulkirs_plan_level_13",
+      "voices_of_the_dead_level_13",
+      "the_house_of_gems_level_13"
+    ]
   },
   {
     "name": "In the Wastes of Gianthold",
@@ -94,85 +160,246 @@
     "name": "Cogs Explorer Dungeons",
     "tier": "Heroic",
     "level": "15-16",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 8,
+    "questIds": [
+      "thralls_of_the_fungus_lord_level_15",
+      "the_same_old_song_level_15",
+      "the_wraithcallers_level_15",
+      "scavenger_hunt_level_16",
+      "the_magma_must_flow_level_16",
+      "security_detail_level_16",
+      "roll_call_level_16",
+      "blown_deadline_level_16"
+    ]
   },
   {
     "name": "Masterminds of Sharn",
     "tier": "Heroic",
     "level": "15-16",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 9,
+    "questIds": [
+      "just_business_level_15",
+      "ruinous_schemes_level_15",
+      "smash_and_burn_level_15",
+      "a_sharn_welcome_level_15",
+      "best_laid_plans_level_15",
+      "red_rain_level_15",
+      "no_refunds_level_16",
+      "house_of_pain_level_16",
+      "reach_for_the_sky_level_16"
+    ]
   },
   {
     "name": "Perils of Cormyr",
     "tier": "Heroic",
     "level": "15-19",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 18,
+    "questIds": [
+      "shadow_of_a_doubt",
+      "a_lesson_in_deception_level_16",
+      "army_of_shadow_level_16",
+      "friends_in_low_places_level_16",
+      "the_thrill_of_the_hunt_level_16",
+      "through_a_mirror_darkly_level_16",
+      "outbreak_level_17",
+      "thorn_and_paw_level_17",
+      "overgrowth_level_17",
+      "the_druids_curse_level_17",
+      "a_stay_at_the_inn_level_18",
+      "detour_level_18",
+      "rest_stop_level_18",
+      "lost_in_the_swamp_level_18",
+      "the_end_of_the_road_level_18",
+      "the_trackers_trap_level_19",
+      "lines_of_supply_level_19",
+      "breaking_the_ranks_level_19"
+    ]
   },
   {
     "name": "Honor of the Huntsilvers",
     "tier": "Heroic",
     "level": "16-19",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 14,
+    "questIds": [
+      "a_lesson_in_deception_level_16",
+      "army_of_shadow_level_16",
+      "friends_in_low_places_level_16",
+      "the_thrill_of_the_hunt_level_16",
+      "through_a_mirror_darkly_level_16",
+      "outbreak_level_17",
+      "thorn_and_paw_level_17",
+      "overgrowth_level_17",
+      "the_druids_curse_level_17",
+      "a_stay_at_the_inn_level_18",
+      "detour_level_18",
+      "rest_stop_level_18",
+      "lost_in_the_swamp_level_18",
+      "the_end_of_the_road_level_18"
+    ]
   },
   {
     "name": "Vecna Unleashed",
     "tier": "Heroic",
     "level": "18",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "enemy_of_my_enemy_level_18",
+      "the_bark_and_the_blade_level_18",
+      "paper_trail_level_18",
+      "party_101_level_18",
+      "taken_in_hand_level_18",
+      "the_devils_to_pay_level_18",
+      "the_evil_we_know_level_18",
+      "what_dreams_may_come_level_18",
+      "grand_theft_aureon_level_18",
+      "vecna_denied_level_18",
+      "vecna_unleashed_quest_level_18",
+      "turn_the_page_quest_level_18",
+      "law_and_order_level_18"
+    ]
   },
   {
     "name": "The Pirates of the Thunder Sea",
     "tier": "Epic",
     "level": "20-25",
     "questCount": 10,
-    "questIds": []
+    "questIds": [
+      "irestone_inlet_level_20",
+      "the_legend_of_twotoed_tobias_level_20",
+      "prove_your_worth_level_20",
+      "ghost_of_a_chance_level_20",
+      "the_troglodytes_get_level_20",
+      "old_grey_garl_level_20",
+      "the_black_loch_level_25",
+      "storm_the_beaches_level_25",
+      "bargain_of_blood_level_25",
+      "the_tide_turns_level_25"
+    ]
   },
   {
     "name": "Menace of the Underdark",
     "tier": "Epic",
     "level": "21-23",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 15,
+    "questIds": [
+      "impossible_demands",
+      "the_lost_thread",
+      "the_battle_for_eveningstar",
+      "the_unquiet_graves",
+      "dont_drink_the_water",
+      "the_house_of_broken_chains",
+      "the_house_of_rusted_blades",
+      "the_portal_opens",
+      "in_the_belly_of_the_beast",
+      "the_house_of_death_undone",
+      "trial_by_fury",
+      "reclaiming_the_rift",
+      "the_deal_and_the_demon",
+      "murder_by_night",
+      "the_riddle"
+    ]
   },
   {
     "name": "The End of Eberron",
     "tier": "Epic",
     "level": "21-23",
     "questCount": 10,
-    "questIds": []
+    "questIds": [
+      "impossible_demands",
+      "the_lost_thread",
+      "dont_drink_the_water",
+      "the_house_of_broken_chains",
+      "the_house_of_rusted_blades",
+      "the_portal_opens",
+      "in_the_belly_of_the_beast",
+      "trial_by_fury",
+      "reclaiming_the_rift",
+      "the_deal_and_the_demon"
+    ]
   },
   {
     "name": "The Planeswalker's Path",
     "tier": "Epic",
     "level": "21-26",
     "questCount": 10,
-    "questIds": []
+    "questIds": [
+      "impossible_demands",
+      "dont_drink_the_water",
+      "the_house_of_broken_chains",
+      "the_portal_opens",
+      "in_the_belly_of_the_beast",
+      "a_stay_at_the_inn_level_24",
+      "detour_level_24",
+      "rest_stop_level_24",
+      "lost_in_the_swamp_level_24",
+      "the_end_of_the_road_level_24"
+    ]
   },
   {
     "name": "Perils of Cormyr",
     "tier": "Epic",
     "level": "21-27",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 18,
+    "questIds": [
+      "impossible_demands",
+      "the_lost_thread",
+      "outbreak_level_23",
+      "thorn_and_paw_level_23",
+      "overgrowth_level_23",
+      "the_druids_curse_level_23",
+      "a_stay_at_the_inn_level_24",
+      "detour_level_24",
+      "rest_stop_level_24",
+      "lost_in_the_swamp_level_24",
+      "the_end_of_the_road_level_24",
+      "a_lesson_in_deception_level_26",
+      "army_of_shadow_level_26",
+      "friends_in_low_places_level_26",
+      "the_thrill_of_the_hunt_level_26",
+      "through_a_mirror_darkly_level_26",
+      "the_trackers_trap_level_27",
+      "lines_of_supply_level_27"
+    ]
   },
   {
     "name": "Honor of the Huntsilvers",
     "tier": "Epic",
     "level": "23-27",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 14,
+    "questIds": [
+      "outbreak_level_23",
+      "thorn_and_paw_level_23",
+      "overgrowth_level_23",
+      "the_druids_curse_level_23",
+      "a_stay_at_the_inn_level_24",
+      "detour_level_24",
+      "rest_stop_level_24",
+      "lost_in_the_swamp_level_24",
+      "the_end_of_the_road_level_24",
+      "a_lesson_in_deception_level_26",
+      "army_of_shadow_level_26",
+      "friends_in_low_places_level_26",
+      "the_thrill_of_the_hunt_level_26",
+      "through_a_mirror_darkly_level_26"
+    ]
   },
   {
     "name": "In the Wastes of Gianthold",
     "tier": "Epic",
     "level": "24",
     "questCount": 10,
-    "questIds": []
+    "questIds": [
+      "foundation_of_discord_level_24",
+      "feast_or_famine_level_24",
+      "the_maze_of_madness_level_24",
+      "a_cry_for_help_level_24",
+      "trial_by_fire_level_24",
+      "madstone_crater_level_24",
+      "the_prison_of_the_planes_level_24",
+      "the_crucible_level_24",
+      "a_cabal_for_one_level_24",
+      "gianthold_tor_level_24"
+    ]
   },
   {
     "name": "Mists of Ravenloft",
@@ -198,56 +425,155 @@
     "name": "Cogs Explorer Dungeons",
     "tier": "Legendary",
     "level": "32",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 8,
+    "questIds": [
+      "thralls_of_the_fungus_lord_level_32",
+      "the_same_old_song_level_32",
+      "the_wraithcallers_level_32",
+      "scavenger_hunt_level_32",
+      "the_magma_must_flow_level_32",
+      "security_detail_level_32",
+      "roll_call_level_32",
+      "blown_deadline_level_32"
+    ]
   },
   {
     "name": "Masterminds of Sharn",
     "tier": "Legendary",
     "level": "32",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 9,
+    "questIds": [
+      "just_business_level_32",
+      "ruinous_schemes_level_32",
+      "smash_and_burn_level_32",
+      "a_sharn_welcome_level_32",
+      "best_laid_plans_level_32",
+      "red_rain_level_32",
+      "no_refunds_level_32",
+      "house_of_pain_level_32",
+      "reach_for_the_sky_level_32"
+    ]
   },
   {
     "name": "Fables of the Feywild",
     "tier": "Legendary",
     "level": "32",
     "questCount": 13,
-    "questIds": []
+    "questIds": [
+      "the_endless_revels_level_32",
+      "the_legend_of_the_lost_locket_level_32",
+      "make_believe_level_32",
+      "wake_me_up_inside_level_32",
+      "combatting_corruption_level_32",
+      "a_frosty_reception_level_32",
+      "witch_hunt_level_32",
+      "quid_pro_quo_level_32",
+      "needle_in_a_fey_stack_level_32",
+      "the_knight_who_cried_windmill_level_32",
+      "the_thornwright_level_32",
+      "immortality_lessons_level_32",
+      "the_icemount_curse_level_32"
+    ]
   },
   {
     "name": "Sinister Secret of Saltmarsh",
     "tier": "Legendary",
     "level": "32",
     "questCount": 10,
-    "questIds": []
+    "questIds": [
+      "back_to_basics_level_32",
+      "the_haunting_of_saltmarsh_level_32",
+      "under_the_cover_of_darkness_level_32",
+      "what_sleeps_below_level_32",
+      "down_you_go_level_32",
+      "danger_at_dunwater_level_32",
+      "the_final_enemy_level_32",
+      "swim_at_your_own_risk_level_32",
+      "the_hijacked_haul_level_32",
+      "rest_for_the_night_level_32"
+    ]
   },
   {
     "name": "Isle of Dread",
     "tier": "Legendary",
     "level": "33-34",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 12,
+    "questIds": [
+      "captive_of_the_hidden_god_level_33",
+      "the_curse_and_the_captive_crustacean_level_33",
+      "bullywugs_and_booby_traps_level_33",
+      "plundering_pirates_point_level_33",
+      "spiders_and_flies_level_33",
+      "the_stone_crypt_chronicle_level_33",
+      "the_trouble_with_tar_pits_level_33",
+      "trials_of_the_triceratops_level_33",
+      "whispers_of_return_level_33",
+      "wild_thing_level_33",
+      "all_hail_the_king_level_33",
+      "fall_of_the_forbidden_temple_level_34"
+    ]
   },
   {
     "name": "Vecna Unleashed",
     "tier": "Legendary",
     "level": "34",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "enemy_of_my_enemy_level_34",
+      "the_bark_and_the_blade_level_34",
+      "paper_trail_level_34",
+      "party_101_level_34",
+      "taken_in_hand_level_34",
+      "the_devils_to_pay_level_34",
+      "the_evil_we_know_level_34",
+      "what_dreams_may_come_level_34",
+      "grand_theft_aureon_level_34",
+      "vecna_denied_level_34",
+      "vecna_unleashed_quest_level_34",
+      "turn_the_page_quest_level_34",
+      "law_and_order_level_34"
+    ]
   },
   {
     "name": "Magic of Myth Drannor",
     "tier": "Legendary",
     "level": "35",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "ettercap_incursion_level_35",
+      "seeds_of_decay_level_35",
+      "the_safehold_level_35",
+      "death_hosts_this_banquet_level_35",
+      "oghmas_song_level_35",
+      "secrets_of_the_red_wizards_level_35",
+      "portal_to_below_level_35",
+      "book_burning_level_35",
+      "times_long_past_level_35",
+      "the_key_to_the_mythal_level_35",
+      "the_zulkirs_plan_level_35",
+      "voices_of_the_dead_level_35",
+      "the_house_of_gems_level_35"
+    ]
   },
   {
     "name": "The Chill of Ravenloft",
     "tier": "Legendary",
     "level": "36",
-    "questCount": 10,
-    "questIds": []
+    "questCount": 13,
+    "questIds": [
+      "the_body_snatchers_level_36",
+      "the_proper_authorities_level_36",
+      "ends_and_means_level_36",
+      "a_light_in_the_attic_level_36",
+      "cold_snap_level_36",
+      "beneath_the_city_streets_level_36",
+      "locked_away_part_one_level_36",
+      "snowfall_and_sunlight_level_36",
+      "locked_away_part_two_level_36",
+      "a_miner_sacrifice_level_36",
+      "the_wish_level_36",
+      "special_delivery_level_36",
+      "zoo_creeper_level_36"
+    ]
   }
 ]
