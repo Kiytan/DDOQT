@@ -301,8 +301,6 @@
 		border-radius: 12px;
 		padding: 1.5rem;
 		height: fit-content;
-		position: sticky;
-		top: 1rem;
 		color: #e0e0e0;
 	}
 
