@@ -104,6 +104,13 @@
 		}
 	}
 
+	// Sanitize HTML to prevent XSS attacks
+	function sanitizeHTML(str: string): string {
+		const div = document.createElement('div');
+		div.textContent = str;
+		return div.innerHTML;
+	}
+
 	function parseMarkdownToHTML(markdown: string): string {
 		// Split into lines for better processing
 		const lines = markdown.split('\n');
@@ -111,7 +118,8 @@
 		let inList = false;
 		
 		for (let i = 0; i < lines.length; i++) {
-			const line = lines[i].trim();
+			// Sanitize each line before processing
+			const line = sanitizeHTML(lines[i].trim());
 			
 			// Skip empty lines
 			if (!line) {

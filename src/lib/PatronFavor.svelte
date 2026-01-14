@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { quests, completedQuests, calculateFavor } from '$lib/questStore.js';
+	import { quests, completedQuests, calculateFavor, patronFavorStats } from '$lib/questStore.js';
 	import type { Quest } from '$lib/types.js';
+	import type { PatronFavorData } from '$lib/types.js';
 	import { derived } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import ToggleButton from './ToggleButton.svelte';
 
 	let sortByFavor = false;
-	let questGroupsCache = new Map<string, Quest[]>();
-	let lastQuestHash = '';
-	let favorTiers: any[] = [];
+	let favorTiers: PatronFavorData[] = [];
 	let patronExpansionState: Record<string, boolean> = {}; // Individual patron expansion states
 	let isPatronFavorExpanded = false; // Main panel expansion state - collapsed by default
 
@@ -23,7 +22,7 @@
 	});
 
 	// Helper function to get favor data for a patron
-	function getPatronFavorData(patronName: string) {
+	function getPatronFavorData(patronName: string): PatronFavorData | undefined {
 		return favorTiers.find((f) => f.name === patronName);
 	}
 
@@ -66,68 +65,10 @@
 		return patronName.replace(/^House\s+/i, '');
 	}
 
-	// Memoized quest group calculation
-	function getQuestGroups(quests: Quest[]): Map<string, Quest[]> {
-		const questHash = JSON.stringify(quests.map((q) => q.id)).slice(0, 100); // Simple hash
-
-		if (questHash === lastQuestHash && questGroupsCache.size > 0) {
-			return questGroupsCache;
-		}
-
-		questGroupsCache.clear();
-		quests.forEach((quest) => {
-			const groupKey = quest.baseQuestId || quest.id;
-			if (!questGroupsCache.has(groupKey)) {
-				questGroupsCache.set(groupKey, []);
-			}
-			questGroupsCache.get(groupKey)!.push(quest);
-		});
-
-		lastQuestHash = questHash;
-		return questGroupsCache;
-	}
-
-	// Calculate favor by patron
-	const patronFavor = derived([quests, completedQuests], ([$quests, $completed]) => {
-		const patronStats = new Map<string, { earned: number; total: number }>();
-
-		// Use memoized quest groups calculation
-		const questGroups = getQuestGroups($quests);
-
-		// Initialize all patrons with 0
-		$quests.forEach((quest) => {
-			if (!patronStats.has(quest.patron)) {
-				patronStats.set(quest.patron, { earned: 0, total: 0 });
-			}
-		});
-
-		// Calculate totals and earned favor using quest groups
-		Array.from(questGroups.values()).forEach((questGroup) => {
-			// Use the first quest in the group for patron assignment
-			const patron = questGroup[0].patron;
-			const stats = patronStats.get(patron)!;
-
-			// Add maximum possible favor from highest base favor variant in group
-			const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
-			stats.total += calculateFavor(highestBaseFavor, 'Elite');
-
-			// Find highest earned favor from any completed variant in this group
-			const completedInGroup = questGroup
-				.map((quest) => ({ quest, completion: $completed[quest.id] }))
-				.filter((item) => item.completion);
-
-			if (completedInGroup.length > 0) {
-				const highestGroupFavor = Math.max(
-					...completedInGroup.map((item) =>
-						calculateFavor(item.quest.baseFavor, item.completion.difficulty)
-					)
-				);
-				stats.earned += highestGroupFavor;
-			}
-		});
-
+	// Use centralized patronFavorStats from questStore
+	const patronFavor = derived([patronFavorStats], ([$patronFavorStats]) => {
 		// Convert to array and add Total Favor entry
-		const patronArray = Array.from(patronStats.entries()).map(([patron, stats]) => ({
+		const patronArray = Array.from($patronFavorStats.entries()).map(([patron, stats]) => ({
 			patron,
 			earned: stats.earned,
 			total: stats.total,

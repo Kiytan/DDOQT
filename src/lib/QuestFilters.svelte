@@ -19,6 +19,7 @@
 	let selectedAutocompleteIndex = -1;
 	let searchInput: HTMLInputElement;
 	let debounceTimer: number;
+	let filterDebounceTimer: number;
 
 	// Subscribe to filters store
 	filters.subscribe((value) => {
@@ -52,7 +53,15 @@
 	// Generate autocomplete suggestions with debouncing
 	$: generateAutocomplete(currentFilters.search || '');
 
-	function updateFilters() {
+	// Debounced filter update for better performance with large datasets
+	function updateFiltersDebounced() {
+		clearTimeout(filterDebounceTimer);
+		filterDebounceTimer = setTimeout(() => {
+			updateFiltersImmediate();
+		}, 100); // 100ms debounce for filter updates
+	}
+
+	function updateFiltersImmediate() {
 		// Initialize sortOrder to 'asc' if sortBy is set but sortOrder is not
 		if (currentFilters.sortBy && !currentFilters.sortOrder) {
 			currentFilters.sortOrder = 'asc';
@@ -62,6 +71,15 @@
 			currentFilters.sortOrder = undefined;
 		}
 		filters.set({ ...currentFilters });
+	}
+
+	// Use debounced version for text input, immediate for other controls
+	function updateFilters() {
+		updateFiltersImmediate();
+	}
+
+	function updateFiltersFromSearch() {
+		updateFiltersDebounced();
 	}
 
 	function handleOnlyRaidsChange() {
@@ -170,7 +188,7 @@
 							placeholder="Search by quest name..."
 							bind:value={currentFilters.search}
 							bind:this={searchInput}
-							on:input={updateFilters}
+							on:input={updateFiltersFromSearch}
 							on:keydown={handleKeydown}
 							on:blur={handleBlur}
 							on:focus={() => (showAutocomplete = autocompleteResults.length > 0)}

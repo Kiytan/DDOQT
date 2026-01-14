@@ -35,6 +35,25 @@ export interface CompletedQuests {
 	};
 }
 
+// Favor tier interfaces for patron rewards
+export interface FavorTier {
+	tier: string;
+	favorRequired: number;
+	reward: string;
+	unreachable?: boolean;
+}
+
+export interface PatronFavorData {
+	name: string;
+	tiers: FavorTier[];
+}
+
+// Patron statistics interface
+export interface PatronStats {
+	earned: number;
+	total: number;
+}
+
 // Helper functions for quest classification
 export function isHeroicQuest(level: number): boolean {
 	return level >= 1 && level <= 19;

@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import LZString from 'lz-string';
-import type { Quest, QuestFilters, CompletedQuests, FilterState } from './types.js';
+import type { Quest, QuestFilters, CompletedQuests, FilterState, PatronStats } from './types.js';
 import { isHeroicQuest, isEpicQuest, isLegendaryQuest, isRaid } from './types.js';
 
 // Helper function for tri-state filtering
@@ -40,6 +40,72 @@ export const pendingHashImport = writable<CompletedQuests | null>(null);
 
 // Filters store
 export const filters = writable<QuestFilters>({});
+
+// Centralized quest groups derived store - groups quests by baseQuestId for shared favor calculation
+export const questGroups = derived(quests, ($quests) => {
+	const groups = new Map<string, Quest[]>();
+	$quests.forEach((quest) => {
+		const groupKey = quest.baseQuestId || quest.id;
+		if (!groups.has(groupKey)) {
+			groups.set(groupKey, []);
+		}
+		groups.get(groupKey)!.push(quest);
+	});
+	return groups;
+});
+
+// Pre-computed lookup for quests that have Epic/Legendary versions (O(n) instead of O(n²))
+export const questsWithEpicLegendaryVersions = derived(quests, ($quests) => {
+	const hasEpicLegendary = new Set<string>();
+	
+	// First pass: find all base IDs that have epic/legendary versions
+	$quests.forEach((quest) => {
+		if (isEpicQuest(quest.level) || isLegendaryQuest(quest.level)) {
+			const baseId = quest.baseQuestId || quest.id;
+			hasEpicLegendary.add(baseId);
+		}
+	});
+	
+	return hasEpicLegendary;
+});
+
+// Centralized patron favor calculations
+export const patronFavorStats = derived([quests, completedQuests, questGroups], ([$quests, $completed, $questGroups]) => {
+	const patronStats = new Map<string, PatronStats>();
+
+	// Initialize all patrons with 0
+	$quests.forEach((quest) => {
+		if (!patronStats.has(quest.patron)) {
+			patronStats.set(quest.patron, { earned: 0, total: 0 });
+		}
+	});
+
+	// Calculate totals and earned favor using quest groups
+	Array.from($questGroups.values()).forEach((questGroup) => {
+		const patron = questGroup[0].patron;
+		const stats = patronStats.get(patron)!;
+
+		// Add maximum possible favor from highest base favor variant in group
+		const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
+		stats.total += calculateFavor(highestBaseFavor, 'Elite');
+
+		// Find highest earned favor from any completed variant in this group
+		const completedInGroup = questGroup
+			.map((quest) => ({ quest, completion: $completed[quest.id] }))
+			.filter((item) => item.completion);
+
+		if (completedInGroup.length > 0) {
+			const highestGroupFavor = Math.max(
+				...completedInGroup.map((item) =>
+					calculateFavor(item.quest.baseFavor, item.completion.difficulty)
+				)
+			);
+			stats.earned += highestGroupFavor;
+		}
+	});
+
+	return patronStats;
+});
 
 // Load quest data
 export async function loadQuests(): Promise<void> {
@@ -320,8 +386,8 @@ export function toggleQuestCompletion(
 
 // Filtered quests derived store
 export const filteredQuests = derived(
-	[quests, filters, completedQuests],
-	([$quests, $filters, $completed]) => {
+	[quests, filters, completedQuests, questsWithEpicLegendaryVersions],
+	([$quests, $filters, $completed, $epicLegendaryLookup]) => {
 		let filtered = $quests.filter((quest) => {
 			// Saga quest ID filter - highest priority
 			if ($filters.sagaQuestIds && $filters.sagaQuestIds.length > 0) {
@@ -410,19 +476,10 @@ export const filteredQuests = derived(
 			// Only raids filter - show only raids when enabled
 			if ($filters.onlyRaids && !isRaid(quest.name)) return false;
 
-			// Filter for quests without Epic/Legendary versions
+			// Filter for quests without Epic/Legendary versions (using pre-computed lookup - O(1) instead of O(n))
 			if ($filters.noEpicLegendaryVersions) {
-				// Get the base quest ID (either the quest's own ID or its baseQuestId)
 				const baseId = quest.baseQuestId || quest.id;
-				
-				// Check if any quest in the dataset has this baseId and is Epic/Legendary
-				const hasEpicLegendaryVersion = $quests.some(q => {
-					const qBaseId = q.baseQuestId || q.id;
-					return qBaseId === baseId && (isEpicQuest(q.level) || isLegendaryQuest(q.level));
-				});
-				
-				// If this quest has Epic/Legendary versions, exclude it
-				if (hasEpicLegendaryVersion) return false;
+				if ($epicLegendaryLookup.has(baseId)) return false;
 			}
 
 			return true;
@@ -470,29 +527,19 @@ export const filteredQuests = derived(
 	}
 );
 
-// Statistics derived store
-export const questStats = derived([quests, completedQuests], ([$quests, $completed]) => {
+// Statistics derived store (using centralized questGroups)
+export const questStats = derived([quests, completedQuests, questGroups], ([$quests, $completed, $questGroups]) => {
 	const totalQuests = $quests.length;
-	const completedQuests = Object.keys($completed).length;
-
-	// Group quests by base quest ID for shared favor calculation
-	const questGroups = new Map<string, Quest[]>();
-	$quests.forEach((quest) => {
-		const groupKey = quest.baseQuestId || quest.id;
-		if (!questGroups.has(groupKey)) {
-			questGroups.set(groupKey, []);
-		}
-		questGroups.get(groupKey)!.push(quest);
-	});
+	const completedQuestsCount = Object.keys($completed).length;
 
 	// Calculate total possible favor (maximum favor per quest group - using highest base favor variant at Elite)
-	const totalFavor = Array.from(questGroups.values()).reduce((sum, questGroup) => {
+	const totalFavor = Array.from($questGroups.values()).reduce((sum, questGroup) => {
 		const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
 		return sum + calculateFavor(highestBaseFavor, 'Elite');
 	}, 0);
 
 	// Calculate earned favor (only highest from each quest group)
-	const earnedFavor = Array.from(questGroups.entries()).reduce((sum, [groupKey, questGroup]) => {
+	const earnedFavor = Array.from($questGroups.entries()).reduce((sum, [groupKey, questGroup]) => {
 		// Find all completed quests in this group
 		const completedInGroup = questGroup
 			.map((quest) => ({ quest, completion: $completed[quest.id] }))
@@ -512,8 +559,8 @@ export const questStats = derived([quests, completedQuests], ([$quests, $complet
 
 	return {
 		totalQuests,
-		completedQuests,
-		completionPercentage: totalQuests > 0 ? Math.round((completedQuests / totalQuests) * 100) : 0,
+		completedQuests: completedQuestsCount,
+		completionPercentage: totalQuests > 0 ? Math.round((completedQuestsCount / totalQuests) * 100) : 0,
 		totalFavor,
 		earnedFavor
 	};

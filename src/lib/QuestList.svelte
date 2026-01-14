@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
 	import {
 		filteredQuests,
 		completedQuests,
@@ -13,6 +14,87 @@
 	type Difficulty = 'Normal' | 'Hard' | 'Elite' | 'Reaper';
 
 	const difficulties: Difficulty[] = ['Normal', 'Hard', 'Elite', 'Reaper'];
+
+	// Virtual scrolling configuration
+	const COMPLETED_ITEM_HEIGHT = 50; // Approximate height for completed quest cards (compact)
+	const UNCOMPLETED_ITEM_HEIGHT = 180; // Approximate height for uncompleted quest cards
+	const BUFFER_SIZE = 10; // Extra items to render above and below viewport
+	const BATCH_SIZE = 50; // Number of items to render at once for progressive loading
+	
+	let containerElement: HTMLDivElement;
+	let visibleStartIndex = 0;
+	let visibleEndIndex = BATCH_SIZE;
+	let containerHeight = 0;
+	let scrollTop = 0;
+	let useVirtualization = false;
+	
+	// Only enable virtualization for large lists
+	$: useVirtualization = $filteredQuests.length > 100;
+	
+	// Calculate visible range based on scroll position
+	function updateVisibleRange() {
+		if (!useVirtualization || !containerElement) {
+			visibleStartIndex = 0;
+			visibleEndIndex = $filteredQuests.length;
+			return;
+		}
+		
+		const viewportHeight = window.innerHeight;
+		
+		// Estimate average item height based on completion status
+		const completedCount = $filteredQuests.filter(q => !!$completedQuests[q.id]).length;
+		const uncompletedCount = $filteredQuests.length - completedCount;
+		const avgHeight = $filteredQuests.length > 0
+			? (completedCount * COMPLETED_ITEM_HEIGHT + uncompletedCount * UNCOMPLETED_ITEM_HEIGHT) / $filteredQuests.length
+			: UNCOMPLETED_ITEM_HEIGHT;
+		
+		const itemsInView = Math.ceil(viewportHeight / avgHeight);
+		const scrollOffset = Math.max(0, scrollTop - containerElement.offsetTop);
+		const startItem = Math.floor(scrollOffset / avgHeight);
+		
+		visibleStartIndex = Math.max(0, startItem - BUFFER_SIZE);
+		visibleEndIndex = Math.min($filteredQuests.length, startItem + itemsInView + BUFFER_SIZE);
+	}
+	
+	function handleScroll() {
+		scrollTop = window.scrollY;
+		updateVisibleRange();
+	}
+	
+	// Debounced scroll handler for better performance
+	let scrollTimeout: number;
+	function debouncedScroll() {
+		if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
+		scrollTimeout = requestAnimationFrame(handleScroll);
+	}
+	
+	onMount(() => {
+		window.addEventListener('scroll', debouncedScroll, { passive: true });
+		window.addEventListener('resize', updateVisibleRange, { passive: true });
+		updateVisibleRange();
+	});
+	
+	onDestroy(() => {
+		window.removeEventListener('scroll', debouncedScroll);
+		window.removeEventListener('resize', updateVisibleRange);
+		if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
+	});
+	
+	// Update visible range when filtered quests change
+	$: if ($filteredQuests) {
+		updateVisibleRange();
+	}
+	
+	// Get the visible subset of quests
+	$: visibleQuests = useVirtualization
+		? $filteredQuests.slice(visibleStartIndex, visibleEndIndex)
+		: $filteredQuests;
+	
+	// Calculate spacer heights for virtual scrolling
+	$: topSpacerHeight = useVirtualization ? visibleStartIndex * UNCOMPLETED_ITEM_HEIGHT : 0;
+	$: bottomSpacerHeight = useVirtualization
+		? ($filteredQuests.length - visibleEndIndex) * UNCOMPLETED_ITEM_HEIGHT
+		: 0;
 
 	function handleQuestToggle(quest: Quest, difficulty?: Difficulty) {
 		if (difficulty) {
@@ -70,22 +152,21 @@
 
 	function generateWikiUrl(questName: string): string {
 		// Generate DDO Wiki URL based on quest name
-		// Replace spaces with underscores and encode special characters
-		const wikiTitle = questName
-			.replace(/\s+/g, '_')
-			.replace(/'/g, '%27')
-			.replace(/"/g, '%22')
-			.replace(/&/g, '%26');
-		return `https://ddowiki.com/page/${wikiTitle}`;
+		// Replace spaces with underscores and properly encode for URL
+		const wikiTitle = questName.replace(/\s+/g, '_');
+		return `https://ddowiki.com/page/${encodeURIComponent(wikiTitle)}`;
 	}
 </script>
 
-<div class="quest-list">
+<div class="quest-list" bind:this={containerElement}>
 	{#if $filters.search || $filteredQuests.length !== $quests.length}
 		<div class="search-results-info">
 			Showing {$filteredQuests.length} of {$quests.length} quests
 			{#if $filters.search}
 				<span class="search-term">for "{$filters.search}"</span>
+			{/if}
+			{#if useVirtualization}
+				<span class="virtualization-info">(virtual scrolling enabled)</span>
 			{/if}
 		</div>
 	{/if}
@@ -93,7 +174,12 @@
 	{#if $filteredQuests.length === 0}
 		<p class="no-quests">No quests match the current filters.</p>
 	{:else}
-		{#each $filteredQuests as quest (quest.id)}
+		<!-- Top spacer for virtual scrolling -->
+		{#if useVirtualization && topSpacerHeight > 0}
+			<div class="virtual-spacer" style="height: {topSpacerHeight}px;"></div>
+		{/if}
+		
+		{#each visibleQuests as quest (quest.id)}
 			{@const isCompleted = isQuestCompleted(quest.id)}
 			{@const completedDifficulty = getCompletedDifficulty(quest.id)}
 			{@const completedDate = $completedQuests[quest.id]?.completedDate}
@@ -217,6 +303,11 @@
 				{/if}
 			</div>
 		{/each}
+		
+		<!-- Bottom spacer for virtual scrolling -->
+		{#if useVirtualization && bottomSpacerHeight > 0}
+			<div class="virtual-spacer" style="height: {bottomSpacerHeight}px;"></div>
+		{/if}
 	{/if}
 </div>
 
@@ -248,6 +339,16 @@
 	.search-term {
 		color: #d4af37;
 		font-weight: 500;
+	}
+
+	.virtualization-info {
+		color: #666;
+		font-size: 0.8rem;
+		margin-left: 0.5rem;
+	}
+
+	.virtual-spacer {
+		flex-shrink: 0;
 	}
 
 	.quest-card {

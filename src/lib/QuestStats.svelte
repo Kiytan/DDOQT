@@ -1,12 +1,16 @@
 <script lang="ts">
+<<<<<<< Updated upstream
 	import { questStats, quests, completedQuests, calculateFavor } from '$lib/questStore.js';
+=======
+	import { questStats, quests, completedQuests, calculateFavor, filteredQuests, patronFavorStats, questGroups } from '$lib/questStore.js';
+>>>>>>> Stashed changes
 	import ToggleButton from './ToggleButton.svelte';
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
-	import type { Quest } from '$lib/types.js';
+	import type { Quest, PatronFavorData, FavorTier } from '$lib/types.js';
 
 	let isExpanded = true;
-	let favorTiers: any[] = [];
+	let favorTiers: PatronFavorData[] = [];
 
 	// Load favor tiers data
 	onMount(async () => {
@@ -22,53 +26,8 @@
 		isExpanded = !isExpanded;
 	}
 
-	// Calculate favor by patron (same logic as PatronFavor.svelte)
-	const patronFavor = derived([quests, completedQuests], ([$quests, $completed]) => {
-		const patronStats = new Map<string, { earned: number; total: number }>();
-		let questGroupsCache = new Map<string, Quest[]>();
-
-		// Group quests by base quest ID
-		$quests.forEach((quest) => {
-			const groupKey = quest.baseQuestId || quest.id;
-			if (!questGroupsCache.has(groupKey)) {
-				questGroupsCache.set(groupKey, []);
-			}
-			questGroupsCache.get(groupKey)!.push(quest);
-		});
-
-		// Initialize all patrons with 0
-		$quests.forEach((quest) => {
-			if (!patronStats.has(quest.patron)) {
-				patronStats.set(quest.patron, { earned: 0, total: 0 });
-			}
-		});
-
-		// Calculate totals and earned favor using quest groups
-		Array.from(questGroupsCache.values()).forEach((questGroup) => {
-			const patron = questGroup[0].patron;
-			const stats = patronStats.get(patron)!;
-
-			// Add maximum possible favor from highest base favor variant in group
-			const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
-			stats.total += calculateFavor(highestBaseFavor, 'Elite');
-
-			// Find highest earned favor from any completed variant in this group
-			const completedInGroup = questGroup
-				.map((quest) => ({ quest, completion: $completed[quest.id] }))
-				.filter((item) => item.completion);
-
-			if (completedInGroup.length > 0) {
-				const highestGroupFavor = Math.max(
-					...completedInGroup.map((item) =>
-						calculateFavor(item.quest.baseFavor, item.completion.difficulty)
-					)
-				);
-				stats.earned += highestGroupFavor;
-			}
-		});
-
-		return patronStats;
-	});
+	// Use centralized patronFavorStats from questStore
+	const patronFavor = patronFavorStats;
 
 	// Get all favor rewards that have been earned across all patrons
 	$: earnedRewards = (() => {
@@ -86,7 +45,7 @@
 		for (const [patronName, stats] of $patronFavor) {
 			const patron = favorTiers.find((p) => p.name === patronName);
 			if (patron && patron.tiers) {
-				patron.tiers.forEach((tier: any) => {
+				patron.tiers.forEach((tier: FavorTier) => {
 					if (!tier.unreachable && stats.earned >= tier.favorRequired) {
 						allEarnedRewards.push({
 							patronName: patronName.replace('<br>', ' '),
@@ -102,6 +61,52 @@
 
 		return allEarnedRewards.sort((a, b) => a.favorRequired - b.favorRequired);
 	})();
+<<<<<<< Updated upstream
+=======
+
+	// Calculate maximum possible favor and remaining favor for currently filtered quests
+	const filteredQuestFavorStats = derived([filteredQuests, completedQuests], ([$filteredQuests, $completed]) => {
+		// Group filtered quests by base quest ID
+		const filteredGroups = new Map<string, Quest[]>();
+		$filteredQuests.forEach((quest) => {
+			const groupKey = quest.baseQuestId || quest.id;
+			if (!filteredGroups.has(groupKey)) {
+				filteredGroups.set(groupKey, []);
+			}
+			filteredGroups.get(groupKey)!.push(quest);
+		});
+
+		let maxPossibleFavor = 0;
+		let currentEarnedFavor = 0;
+
+		// Calculate favor for each quest group
+		Array.from(filteredGroups.values()).forEach((questGroup) => {
+			// Get the highest base favor from any variant in this group for max possible
+			const highestBaseFavor = Math.max(...questGroup.map((q) => q.baseFavor));
+			maxPossibleFavor += calculateFavor(highestBaseFavor, 'Elite');
+
+			// Find highest earned favor from any completed variant in this group
+			const completedInGroup = questGroup
+				.map((quest) => ({ quest, completion: $completed[quest.id] }))
+				.filter((item) => item.completion);
+
+			if (completedInGroup.length > 0) {
+				const highestGroupFavor = Math.max(
+					...completedInGroup.map((item) =>
+						calculateFavor(item.quest.baseFavor, item.completion.difficulty)
+					)
+				);
+				currentEarnedFavor += highestGroupFavor;
+			}
+		});
+
+		return {
+			maxPossible: maxPossibleFavor,
+			currentEarned: currentEarnedFavor,
+			remaining: maxPossibleFavor - currentEarnedFavor
+		};
+	});
+>>>>>>> Stashed changes
 </script>
 
 <div class="stats-container">
