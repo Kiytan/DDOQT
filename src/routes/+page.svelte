@@ -56,6 +56,9 @@
 
 <main>
 	<header>
+		<a href="https://ddotools.xyz" class="back-to-main" title="Back to DDO Tools">
+			← ddotools.xyz
+		</a>
 		<div class="header-title">
 			<img src="/QTLogo.png" alt="DDO Quest Tracker Logo" class="logo" />
 			<h1>DDO Quest Tracker</h1>
@@ -116,6 +119,25 @@
 	header {
 		text-align: center;
 		margin-bottom: 2rem;
+		position: relative;
+	}
+
+	.back-to-main {
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: #d4af37;
+		text-decoration: none;
+		font-size: 0.95rem;
+		font-weight: 500;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		transition: all 0.2s ease;
+	}
+
+	.back-to-main:hover {
+		color: #e6c547;
+		background: rgba(212, 175, 55, 0.1);
 	}
 
 	.header-title {
@@ -205,6 +227,13 @@
 
 		header h1 {
 			font-size: 2rem;
+		}
+
+		.back-to-main {
+			position: static;
+			display: inline-block;
+			margin-bottom: 0.5rem;
+			font-size: 0.9rem;
 		}
 	}
 
