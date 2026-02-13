@@ -56,7 +56,10 @@
 
 <main>
 	<header>
-		<h1>DDO Quest Tracker</h1>
+		<div class="header-title">
+			<img src="/QTLogo.png" alt="DDO Quest Tracker Logo" class="logo" />
+			<h1>DDO Quest Tracker</h1>
+		</div>
 		<p>Keep track of your completed Dungeons & Dragons Online quests</p>
 	</header>
 
@@ -115,10 +118,24 @@
 		margin-bottom: 2rem;
 	}
 
+	.header-title {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.logo {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+	}
+
 	header h1 {
 		font-size: 2.5rem;
 		color: white;
-		margin: 0 0 0.5rem 0;
+		margin: 0;
 		font-weight: bold;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	}
@@ -179,6 +196,11 @@
 	@media (max-width: 768px) {
 		main {
 			padding: 1rem;
+		}
+
+		.logo {
+			width: 40px;
+			height: 40px;
 		}
 
 		header h1 {
