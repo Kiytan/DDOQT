@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import LZString from 'lz-string';
 import type { Quest, QuestFilters, CompletedQuests, FilterState } from './types.js';
 import { isHeroicQuest, isEpicQuest, isLegendaryQuest, isRaid } from './types.js';
@@ -79,6 +79,41 @@ function initializeDefaultFilters(questData: Quest[]): void {
 }
 
 const STORAGE_KEY = 'ddoqt-completed-quests';
+const SETTINGS_KEY = 'ddoqt-settings';
+
+// Settings store
+export const autoSyncEnabled = writable<boolean>(false);
+
+// Load settings from localStorage
+export function loadSettings(): void {
+	if (typeof window === 'undefined') return;
+	
+	try {
+		const stored = localStorage.getItem(SETTINGS_KEY);
+		if (stored) {
+			const settings = JSON.parse(stored);
+			autoSyncEnabled.set(settings.autoSyncEnabled ?? false);
+		}
+	} catch (error) {
+		console.error('Failed to load settings:', error);
+	}
+}
+
+// Save auto-sync setting
+export function setAutoSyncEnabled(enabled: boolean): void {
+	if (typeof window === 'undefined') return;
+	
+	autoSyncEnabled.set(enabled);
+	
+	try {
+		const stored = localStorage.getItem(SETTINGS_KEY);
+		const settings = stored ? JSON.parse(stored) : {};
+		settings.autoSyncEnabled = enabled;
+		localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+	} catch (error) {
+		console.error('Failed to save settings:', error);
+	}
+}
 
 // Load completed quests from localStorage
 export function loadCompletedFromStorage(): void {
@@ -133,7 +168,7 @@ export function saveCompletedToStorage(completed: CompletedQuests): void {
 	}
 }
 
-// Check for URL hash and parse it (doesn't auto-import)
+// Check for URL hash and parse it (doesn't auto-import unless autoAction is specified)
 export function checkForHashImport(): void {
 	if (typeof window === 'undefined') return;
 
@@ -142,6 +177,10 @@ export function checkForHashImport(): void {
 		pendingHashImport.set(null);
 		return;
 	}
+
+	// Check for auto-import query parameter: ?action=merge or ?action=replace
+	const urlParams = new URLSearchParams(window.location.search);
+	const autoAction = urlParams.get('action');
 
 	try {
 		// Limit hash size to prevent memory exhaustion
@@ -225,6 +264,31 @@ export function checkForHashImport(): void {
 
 		// Set the pending import data (doesn't auto-import)
 		pendingHashImport.set(completed);
+		
+		// Auto-import if action parameter is specified AND setting is enabled
+		const isAutoSyncEnabled = get(autoSyncEnabled);
+		if ((autoAction === 'merge' || autoAction === 'replace') && isAutoSyncEnabled) {
+			const merge = autoAction === 'merge';
+			
+			if (merge) {
+				// Merge with existing data
+				completedQuests.update((current) => {
+					const merged = { ...current, ...completed };
+					saveCompletedToStorage(merged);
+					return merged;
+				});
+			} else {
+				// Replace existing data
+				completedQuests.set(completed);
+				saveCompletedToStorage(completed);
+			}
+			
+			// Clear the hash, query params, and pending import
+			pendingHashImport.set(null);
+			const newUrl = window.location.pathname;
+			window.history.replaceState({}, '', newUrl);
+			console.log(`Auto-imported ${Object.keys(completed).length} quests (${autoAction})`);
+		}
 	} catch (error) {
 		console.error('Failed to parse hash:', error);
 		pendingHashImport.set(null);

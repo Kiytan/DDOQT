@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { completedQuests, exportToHash } from '$lib/questStore.js';
+	import { completedQuests, exportToHash, autoSyncEnabled, setAutoSyncEnabled } from '$lib/questStore.js';
 	import ToggleButton from './ToggleButton.svelte';
 
 	let showSaveSuccess = false;
@@ -203,6 +203,22 @@
 			</div>
 
 			<div class="setting-group">
+				<h4>Plugin Auto-Sync  (CURRENTLY IN TESTING)</h4>
+				<p>Allow Dungeon Helper plugin to automatically sync quests:</p>
+				<label class="toggle-setting">
+					<input 
+						type="checkbox" 
+						checked={$autoSyncEnabled}
+						on:change={(e) => setAutoSyncEnabled(e.currentTarget.checked)}
+					/>
+					<span class="toggle-label">Enable auto-sync from plugins</span>
+				</label>
+				<div class="message info">
+					When enabled, the Quest Tracker plugin can automatically update your completed quests without showing a confirmation dialog.
+				</div>
+			</div>
+
+			<div class="setting-group">
 				<h4>Reset Progress</h4>
 				<p>Clear all quest completions and start over:</p>
 				<button on:click={resetProgress} class="action-btn reset-btn"> Reset All Progress </button>
@@ -372,6 +388,26 @@
 
 	.info-btn:hover {
 		background: #138496;
+	}
+
+	.toggle-setting {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		cursor: pointer;
+		padding: 0.5rem 0;
+	}
+
+	.toggle-setting input[type="checkbox"] {
+		width: 18px;
+		height: 18px;
+		cursor: pointer;
+		accent-color: #28a745;
+	}
+
+	.toggle-label {
+		color: #e0e0e0;
+		font-size: 0.95rem;
 	}
 
 	.modal-overlay {

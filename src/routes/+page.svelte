@@ -4,6 +4,7 @@
 		loadQuests, 
 		loadCompletedFromStorage, 
 		checkForHashImport,
+		loadSettings,
 		pendingHashImport 
 	} from '$lib/questStore.js';
 	import QuestStats from '$lib/QuestStats.svelte';
@@ -21,6 +22,7 @@
 		const initializeApp = async () => {
 			await loadQuests();
 			loadCompletedFromStorage();
+			loadSettings();
 			checkForHashImport();
 		};
 
