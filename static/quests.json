@@ -2774,6 +2774,32 @@
     "baseQuestId": "zoo_creeper"
   },
   {
+    "id": "body_and_mind_level_8",
+    "name": "Body and Mind",
+    "level": 8,
+    "baseFavor": 5,
+    "patron": "Keepers of Lamordia",
+    "adventurePack": "Free to Play",
+    "baseQuestId": "body_and_mind"
+  },
+  {
+    "id": "body_and_mind_level_36",
+    "name": "Body and Mind",
+    "level": 36,
+    "baseFavor": 5,
+    "patron": "Keepers of Lamordia",
+    "adventurePack": "Free to Play",
+    "baseQuestId": "body_and_mind"
+  },
+  {
+    "id": "relentless",
+    "name": "Relentless",
+    "level": 36,
+    "baseFavor": 12,
+    "patron": "Keepers of Lamordia",
+    "adventurePack": "The Chill of Ravenloft"
+  },
+  {
     "id": "fall_of_the_forbidden_temple_level_8",
     "name": "Fall of the Forbidden Temple",
     "level": 8,
