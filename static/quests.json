@@ -1515,7 +1515,8 @@
     "level": 5,
     "baseFavor": 4,
     "patron": "The Free Agents",
-    "adventurePack": "Three-Barrel Cove"
+    "adventurePack": "Three-Barrel Cove",
+    "baseQuestId": "prove_your_worth"
   },
   {
     "id": "ghost_of_a_chance",
@@ -1523,7 +1524,8 @@
     "level": 5,
     "baseFavor": 4,
     "patron": "The Free Agents",
-    "adventurePack": "Three-Barrel Cove"
+    "adventurePack": "Three-Barrel Cove",
+    "baseQuestId": "ghost_of_a_chance"
   },
   {
     "id": "the_stones_run_red",
@@ -4729,7 +4731,8 @@
     "level": 14,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "desecrated_temple_of_vol"
   },
   {
     "id": "flesh_makers_laboratory",
@@ -4737,7 +4740,8 @@
     "level": 14,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "flesh_makers_laboratory"
   },
   {
     "id": "ghosts_of_perdition",
@@ -4745,7 +4749,8 @@
     "level": 14,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "ghosts_of_perdition"
   },
   {
     "id": "inferno_of_the_damned",
@@ -4753,7 +4758,8 @@
     "level": 14,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "inferno_of_the_damned"
   },
   {
     "id": "delirium",
@@ -6829,7 +6835,8 @@
     "level": 29,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "inferno_of_the_damned"
   },
   {
     "id": "desecrated_temple_of_vol_epic",
@@ -6837,7 +6844,8 @@
     "level": 29,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "desecrated_temple_of_vol"
   },
   {
     "id": "ghosts_of_perdition_epic",
@@ -6845,7 +6853,8 @@
     "level": 29,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "ghosts_of_perdition"
   },
   {
     "id": "flesh_makers_laboratory_epic",
@@ -6853,7 +6862,8 @@
     "level": 29,
     "baseFavor": 6,
     "patron": "The Silver Flame",
-    "adventurePack": "The Necropolis, Part 4"
+    "adventurePack": "The Necropolis, Part 4",
+    "baseQuestId": "flesh_makers_laboratory"
   },
   {
     "id": "old_tomb_new_tenants",
@@ -6885,7 +6895,8 @@
     "level": 25,
     "baseFavor": 4,
     "patron": "The Free Agents",
-    "adventurePack": "Three-Barrel Cove"
+    "adventurePack": "Three-Barrel Cove",
+    "baseQuestId": "ghost_of_a_chance"
   },
   {
     "id": "prove_your_worth_epic",
@@ -6893,7 +6904,8 @@
     "level": 25,
     "baseFavor": 4,
     "patron": "The Free Agents",
-    "adventurePack": "Three-Barrel Cove"
+    "adventurePack": "Three-Barrel Cove",
+    "baseQuestId": "prove_your_worth"
   },
   {
     "id": "the_chronoscope_legendary",
@@ -6901,7 +6913,8 @@
     "level": 32,
     "baseFavor": 10,
     "patron": "The Coin Lords",
-    "adventurePack": "Devil Assault"
+    "adventurePack": "Devil Assault",
+    "baseQuestId": "the_chronoscope"
   },
   {
     "id": "riding_the_storm_out",
