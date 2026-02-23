@@ -1,5 +1,16 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.4.0 - February 2026 - Big Plugin Update!
+### New Features
+- **DH Plugin Support**: This new feature Allows automatic syncing of completed quests in DDO using the dungeonhelper <a href="https://github.com/Kiytan/DDOQT-DHPlugin" target="_blank">plugin</a> I created. Instructions for installing it are on the github page. Install instructions for dungeonhelper can be found on their <a href="https://dungeonhelper.com" target="_blank">Site</a>
+
+By default this option is turned off on the site. It can be enabled in the settings on the bottom left.
+
+
+---
+
+
+
 ## Version 2.3.0 - January 2026
 ### New Features
 - **Saga Progress Tracking**: Added saga progress display showing completion status for all DDO sagas
