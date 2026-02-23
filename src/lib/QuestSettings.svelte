@@ -319,26 +319,6 @@
 		line-height: 1.4;
 	}
 
-	.hash-input {
-		width: 100%;
-		min-height: 80px;
-		padding: 0.5rem;
-		border: 1px solid #555;
-		border-radius: 4px;
-		background: #1a1a1a;
-		color: #e0e0e0;
-		font-size: 0.85rem;
-		font-family: monospace;
-		resize: vertical;
-		margin-bottom: 0.75rem;
-	}
-
-	.hash-input:focus {
-		outline: none;
-		border-color: #d4af37;
-		box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-	}
-
 	.action-btn {
 		background: #6c757d;
 		color: white;
@@ -364,14 +344,6 @@
 
 	.save-btn:hover {
 		background: #218838;
-	}
-
-	.load-btn {
-		background: #007bff;
-	}
-
-	.load-btn:hover {
-		background: #0056b3;
 	}
 
 	.reset-btn {
@@ -554,12 +526,6 @@
 		background: rgba(23, 162, 184, 0.2);
 		border: 1px solid #17a2b8;
 		color: #17a2b8;
-	}
-
-	.message.error {
-		background: rgba(220, 53, 69, 0.2);
-		border: 1px solid #dc3545;
-		color: #dc3545;
 	}
 
 	@media (max-width: 768px) {

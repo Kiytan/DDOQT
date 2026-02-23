@@ -420,26 +420,6 @@
 		gap: 0.5rem;
 	}
 
-	.patron-name-container {
-		flex: 1;
-	}
-
-	.patron-name-link {
-		text-decoration: none;
-		color: inherit;
-		display: inline-block;
-		transition: opacity 0.2s ease;
-	}
-
-	.patron-name-link:hover {
-		opacity: 0.8;
-		text-decoration: underline;
-	}
-
-	.patron-name-link:hover .patron-name {
-		color: #f0d060;
-	}
-
 	.patron-name {
 		margin: 0;
 		font-size: 0.9rem;
