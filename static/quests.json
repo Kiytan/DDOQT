@@ -7123,5 +7123,86 @@
     "baseFavor": 9,
     "patron": "Morgrave University",
     "adventurePack": "Vecna Unleashed"
+  },
+  {
+    "id": "going_rogue_level_10",
+    "name": "Going Rogue",
+    "level": 10,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "going_rogue_level_36",
+    "name": "Going Rogue",
+    "level": 36,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "wish_upon_a_card_level_10",
+    "name": "Wish Upon a Card",
+    "level": 10,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "wish_upon_a_card_level_36",
+    "name": "Wish Upon a Card",
+    "level": 36,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "burning_down_the_house_level_10",
+    "name": "Burning Down the House",
+    "level": 10,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  }
+  ,
+  {
+    "id": "burning_down_the_house_level_36",
+    "name": "Burning Down the House",
+    "level": 36,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "thrall_of_duty_level_10",
+    "name": "Thrall of Duty",
+    "level": 10,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "thrall_of_duty_level_36",
+    "name": "Thrall of Duty",
+    "level": 36,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "the_final_draw_level_10",
+    "name": "The Final Draw",
+    "level": 10,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
+  },
+  {
+    "id": "the_final_draw_level_36",
+    "name": "The Final Draw",
+    "level": 36,
+    "baseFavor": 4,
+    "patron": "Agents of Argonnessen",
+    "adventurePack": "The Dragons' Hand"
   }
 ]
