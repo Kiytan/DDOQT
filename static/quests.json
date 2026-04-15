@@ -7125,7 +7125,7 @@
     "adventurePack": "Vecna Unleashed"
   },
   {
-    "id": "going_rogue_level_10",
+    "id": "going_rogue",
     "name": "Going Rogue",
     "level": 10,
     "baseFavor": 4,
@@ -7138,10 +7138,11 @@
     "level": 36,
     "baseFavor": 4,
     "patron": "Agents of Argonnessen",
-    "adventurePack": "The Dragons' Hand"
+    "adventurePack": "The Dragons' Hand",
+    "baseQuestId": "going_rogue"
   },
   {
-    "id": "wish_upon_a_card_level_10",
+    "id": "wish_upon_a_card",
     "name": "Wish Upon a Card",
     "level": 10,
     "baseFavor": 4,
@@ -7154,10 +7155,12 @@
     "level": 36,
     "baseFavor": 4,
     "patron": "Agents of Argonnessen",
-    "adventurePack": "The Dragons' Hand"
+    "adventurePack": "The Dragons' Hand",
+    "baseQuestId": "wish_upon_a_card"
+
   },
   {
-    "id": "burning_down_the_house_level_10",
+    "id": "burning_down_the_house",
     "name": "Burning Down the House",
     "level": 10,
     "baseFavor": 4,
@@ -7171,10 +7174,11 @@
     "level": 36,
     "baseFavor": 4,
     "patron": "Agents of Argonnessen",
-    "adventurePack": "The Dragons' Hand"
+    "adventurePack": "The Dragons' Hand",
+    "baseQuestId": "burning_down_the_house"
   },
   {
-    "id": "thrall_of_duty_level_10",
+    "id": "thrall_of_duty",
     "name": "Thrall of Duty",
     "level": 10,
     "baseFavor": 4,
@@ -7187,10 +7191,11 @@
     "level": 36,
     "baseFavor": 4,
     "patron": "Agents of Argonnessen",
-    "adventurePack": "The Dragons' Hand"
+    "adventurePack": "The Dragons' Hand",
+    "baseQuestId": "thrall_of_duty"
   },
   {
-    "id": "the_final_draw_level_10",
+    "id": "the_final_draw",
     "name": "The Final Draw",
     "level": 10,
     "baseFavor": 4,
@@ -7203,6 +7208,7 @@
     "level": 36,
     "baseFavor": 4,
     "patron": "Agents of Argonnessen",
-    "adventurePack": "The Dragons' Hand"
+    "adventurePack": "The Dragons' Hand",
+    "baseQuestId": "the_final_draw"
   }
 ]
