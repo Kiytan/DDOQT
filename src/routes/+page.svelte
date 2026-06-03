@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { 
-		loadQuests, 
-		loadCompletedFromStorage, 
+	import {
+		loadQuests,
+		loadCompletedFromStorage,
 		checkForHashImport,
 		loadSettings,
-		pendingHashImport 
+		loadActivePlan,
+		pendingHashImport
 	} from '$lib/questStore.js';
 	import QuestStats from '$lib/QuestStats.svelte';
 	import QuestFilters from '$lib/QuestFilters.svelte';
@@ -23,6 +24,7 @@
 			await loadQuests();
 			loadCompletedFromStorage();
 			loadSettings();
+			loadActivePlan(); // restore persisted plan filter (after loadQuests resets filters)
 			checkForHashImport();
 		};
 

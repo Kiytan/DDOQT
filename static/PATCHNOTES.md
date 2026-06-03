@@ -1,15 +1,19 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.5.0 - June 2026
+### New Features
+- **Levelling Plan Import**: Import a quest list exported from a DDO levelling planner (JSON) to filter the tracker to just those quests. Paste the JSON or load the exported file from the Settings panel. Slayer areas, level-up markers and custom rows are skipped automatically, and any unrecognised quest names are listed so nothing is silently dropped.
+- **Persistent Plan Filter**: An imported plan now stays applied across page reloads and plugin syncs until you clear it, using the new "Clear Plan Filter" button (or "Clear All Filters").
+
+---
+
 ## Version 2.4.0 - February 2026 - Big Plugin Update!
 ### New Features
 - **DH Plugin Support**: This new feature Allows automatic syncing of completed quests in DDO using the dungeonhelper <a href="https://github.com/Kiytan/DDOQT-DHPlugin" target="_blank">plugin</a> I created. Instructions for installing it are on the github page. Install instructions for dungeonhelper can be found on their <a href="https://dungeonhelper.com" target="_blank">Site</a>
 
 By default this option is turned off on the site. It can be enabled in the settings on the bottom left.
 
-
 ---
-
-
 
 ## Version 2.3.0 - January 2026
 ### New Features
@@ -34,7 +38,6 @@ By default this option is turned off on the site. It can be enabled in the setti
 ---
 
 ## Version 2.1.0 - September 2025
-
 ### New Features
 - **Epic & Legendary Quest Filters**: Added dedicated filters for Epic (21-29) and Legendary (30+) quest tiers
 - **Quest Card Color Coding**: Epic quests now display with purple titles, Legendary quests with orange titles
@@ -58,7 +61,6 @@ By default this option is turned off on the site. It can be enabled in the setti
 ---
 
 ## Version 2.0.0 - Foundation Release
-
 ### Core Features
 - **Quest Completion Tracking**: Comprehensive quest completion system with URL hash persistence
 - **Adventure Pack Filtering**: Filter quests by expansion content and adventure packs

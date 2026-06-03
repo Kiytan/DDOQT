@@ -23,6 +23,7 @@ export interface QuestFilters {
 	onlyRaids?: boolean; // Show only raid quests (keep as boolean)
 	noEpicLegendaryVersions?: boolean; // Filter for quests without Epic/Legendary variants (keep as boolean)
 	sagaQuestIds?: string[]; // Filter to show only specific quest IDs (for saga filtering)
+	customQuestIds?: string[]; // Filter to show only specific quest IDs (imported levelling plan)
 	sortBy?: 'name' | 'level' | 'baseFavor' | 'patron';
 	sortOrder?: 'asc' | 'desc';
 	search?: string;

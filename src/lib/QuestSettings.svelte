@@ -1,5 +1,16 @@
 <script lang="ts">
-	import { completedQuests, exportToHash, autoSyncEnabled, setAutoSyncEnabled } from '$lib/questStore.js';
+	import {
+		completedQuests,
+		exportToHash,
+		autoSyncEnabled,
+		setAutoSyncEnabled,
+		quests,
+		filters,
+		applyCustomQuestList,
+		clearFilters
+	} from '$lib/questStore.js';
+	import { importPlannerText, type ImportReport } from '$lib/plannerImport.js';
+	import { get } from 'svelte/store';
 	import ToggleButton from './ToggleButton.svelte';
 
 	let showSaveSuccess = false;
@@ -7,6 +18,55 @@
 	let showPatchNotes = false;
 	let patchNotesContent = '';
 	let patchNotesLoading = false;
+
+	// Levelling-plan import
+	let planText = '';
+	let planReport: ImportReport | null = null;
+	let planError = '';
+
+	function handlePlanFile(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+		const reader = new FileReader();
+		reader.onload = () => {
+			planText = typeof reader.result === 'string' ? reader.result : '';
+			applyPlan();
+		};
+		reader.readAsText(file);
+	}
+
+	function applyPlan() {
+		planError = '';
+		planReport = null;
+		try {
+			const report = importPlannerText(planText, get(quests));
+			if (report.questIds.length === 0) {
+				planError = 'No quests in this plan matched the quest list.';
+				return;
+			}
+			applyCustomQuestList(report.questIds);
+			planReport = report;
+		} catch (error) {
+			planError = error instanceof Error ? error.message : 'Failed to read the plan.';
+		}
+	}
+
+	function clearPlan() {
+		planReport = null;
+		planError = '';
+		planText = '';
+		clearFilters();
+	}
+
+	// Total entries deliberately skipped (areas, markers, custom rows, removed quests).
+	$: planSkipped = planReport
+		? Object.values(planReport.skipped).reduce((a, b) => a + b, 0)
+		: 0;
+
+	// A plan filter is active whenever customQuestIds is set — including after a reload,
+	// when the in-session report is gone but the persisted filter has been restored.
+	$: activePlanCount = $filters.customQuestIds?.length ?? 0;
 
 	function toggleExpanded() {
 		isExpanded = !isExpanded;
@@ -200,6 +260,72 @@
 				<div class="message info">
 					Share this URL with others or save it as a backup. To import someone else's progress, simply visit their shared URL.
 				</div>
+			</div>
+
+			<div class="setting-group">
+				<h4>Import Levelling Plan</h4>
+				<p>
+					Load a quest list exported from a DDO levelling planner to filter the tracker to just
+					those quests. Paste the JSON below, or choose the exported file.
+				</p>
+				<textarea
+					class="plan-input"
+					rows="4"
+					placeholder={'{ "heroic": [ { "name": "..." } ], "epic": [ ... ] }'}
+					bind:value={planText}
+				></textarea>
+				<div class="plan-actions">
+					<button on:click={applyPlan} class="action-btn save-btn" disabled={!planText.trim()}>
+						Apply Plan
+					</button>
+					<label class="action-btn info-btn file-btn">
+						Choose File…
+						<input type="file" accept=".json,application/json" on:change={handlePlanFile} hidden />
+					</label>
+					{#if activePlanCount > 0 || planError}
+						<button on:click={clearPlan} class="action-btn reset-btn">Clear Plan Filter</button>
+					{/if}
+				</div>
+
+				{#if planError}
+					<div class="message error">{planError}</div>
+				{/if}
+
+				{#if activePlanCount > 0 && !planReport}
+					<div class="message success">
+						A levelling plan filter is active ({activePlanCount} quest{activePlanCount === 1
+							? ''
+							: 's'}).
+					</div>
+				{/if}
+
+				{#if planReport}
+					<div class="message success">
+						Filtering to {planReport.questIds.length} quest{planReport.questIds.length === 1
+							? ''
+							: 's'} from your plan.
+					</div>
+					{#if planSkipped > 0}
+						<div class="message info">
+							Skipped {planSkipped} non-quest entr{planSkipped === 1 ? 'y' : 'ies'}
+							(areas, level-up markers, custom rows, removed quests).
+						</div>
+					{/if}
+					{#if planReport.unmatched.length > 0}
+						<div class="message info">
+							<strong
+								>{planReport.unmatched.length} name{planReport.unmatched.length === 1
+									? ''
+									: 's'} not found:</strong
+							>
+							<ul class="unmatched-list">
+								{#each planReport.unmatched as name}
+									<li>{name}</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+				{/if}
 			</div>
 
 			<div class="setting-group">
@@ -526,6 +652,57 @@
 		background: rgba(23, 162, 184, 0.2);
 		border: 1px solid #17a2b8;
 		color: #17a2b8;
+	}
+
+	.message.error {
+		background: rgba(220, 53, 69, 0.2);
+		border: 1px solid #dc3545;
+		color: #f08591;
+	}
+
+	.plan-input {
+		width: 100%;
+		box-sizing: border-box;
+		background: #1a1a1a;
+		border: 1px solid #555;
+		color: #e0e0e0;
+		border-radius: 4px;
+		padding: 0.5rem;
+		font-family: 'Courier New', monospace;
+		font-size: 0.8rem;
+		resize: vertical;
+		margin-bottom: 0.5rem;
+	}
+
+	.plan-input:focus {
+		outline: none;
+		border-color: #d4af37;
+	}
+
+	.plan-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.file-btn {
+		display: inline-flex;
+		align-items: center;
+		cursor: pointer;
+	}
+
+	.action-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
+	}
+
+	.unmatched-list {
+		margin: 0.5rem 0 0 1rem;
+		padding: 0;
+		font-size: 0.85rem;
 	}
 
 	@media (max-width: 768px) {

@@ -21,3 +21,8 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Levelling-planner export catalogues — kept locally for regenerating the import
+# alias table (see PLANNER_IMPORT.md), not needed in the repo.
+/heroic_config.csv
+/epic_config.csv
