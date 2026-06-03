@@ -80,6 +80,10 @@ function initializeDefaultFilters(questData: Quest[]): void {
 
 const STORAGE_KEY = 'ddoqt-completed-quests';
 const SETTINGS_KEY = 'ddoqt-settings';
+// Persisted active levelling-plan filter. Currently only the imported plan
+// (customQuestIds) is persisted; this same save/restore pattern can later be widened
+// to persist more of the filter state (e.g. owned adventure packs) — see AGENTS.md.
+const ACTIVE_PLAN_KEY = 'ddoqt-active-plan';
 
 // Settings store
 export const autoSyncEnabled = writable<boolean>(false);
@@ -392,6 +396,11 @@ export const filteredQuests = derived(
 				if (!$filters.sagaQuestIds.includes(quest.id)) return false;
 			}
 
+			// Imported levelling-plan filter - show only the planned quests
+			if ($filters.customQuestIds && $filters.customQuestIds.length > 0) {
+				if (!$filters.customQuestIds.includes(quest.id)) return false;
+			}
+
 			// Search filter (quest name only)
 			if ($filters.search) {
 				const searchTerm = $filters.search.toLowerCase();
@@ -599,8 +608,56 @@ export function applySagaFilter(questIds: string[], tier: 'Heroic' | 'Epic' | 'L
 	}));
 }
 
-// Clear all filters
+// Persist / restore the active levelling-plan filter so it survives reloads and
+// plugin syncs (which reload the page).
+function saveActivePlan(questIds: string[]): void {
+	if (typeof window === 'undefined') return;
+	try {
+		localStorage.setItem(ACTIVE_PLAN_KEY, JSON.stringify(questIds));
+	} catch (error) {
+		console.error('Failed to save active plan:', error);
+	}
+}
+
+export function clearActivePlan(): void {
+	if (typeof window === 'undefined') return;
+	try {
+		localStorage.removeItem(ACTIVE_PLAN_KEY);
+	} catch (error) {
+		console.error('Failed to clear active plan:', error);
+	}
+}
+
+// Restore a persisted plan filter on load. Call AFTER loadQuests(), which resets
+// filters to their defaults.
+export function loadActivePlan(): void {
+	if (typeof window === 'undefined') return;
+	try {
+		const stored = localStorage.getItem(ACTIVE_PLAN_KEY);
+		if (!stored) return;
+		const parsed = JSON.parse(stored);
+		if (Array.isArray(parsed) && parsed.length > 0 && parsed.every((id) => typeof id === 'string')) {
+			filters.update((current) => ({ ...current, customQuestIds: parsed }));
+		}
+	} catch (error) {
+		console.error('Failed to load active plan:', error);
+	}
+}
+
+// Apply an imported levelling plan - show ONLY the planned quests, clearing other
+// filters so the whole plan is visible regardless of pack/level/completion filters.
+export function applyCustomQuestList(questIds: string[]): void {
+	if (questIds.length === 0) {
+		clearFilters();
+		return;
+	}
+	filters.set({ customQuestIds: questIds });
+	saveActivePlan(questIds);
+}
+
+// Clear all filters (and forget any persisted plan)
 export function clearFilters(): void {
+	clearActivePlan();
 	quests.subscribe((questData) => {
 		initializeDefaultFilters(questData);
 	})();
