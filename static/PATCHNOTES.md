@@ -1,5 +1,9 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.5.1 - July 2026
+- **Added the Terror of the Demogorgon quests/expansion/saga. The raid will be added once it's released
+
+
 ## Version 2.5.0 - June 2026
 ### New Features
 - **Levelling Plan Import**: Import a quest list exported from a DDO levelling planner (JSON) to filter the tracker to just those quests. Paste the JSON or load the exported file from the Settings panel. Slayer areas, level-up markers and custom rows are skipped automatically, and any unrecognised quest names are listed so nothing is silently dropped.
