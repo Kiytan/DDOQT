@@ -1,7 +1,7 @@
 # DDO Quest Tracker - Patch Notes
 
 ## Version 2.5.1 - July 2026
-- **Added the Terror of the Demogorgon quests/expansion/saga. The raid will be added once it's released
+- Added the Terror of the Demogorgon quests/expansion/saga. The raid will be added once it's released
 
 
 ## Version 2.5.0 - June 2026
