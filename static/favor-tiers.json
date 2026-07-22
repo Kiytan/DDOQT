@@ -558,6 +558,30 @@
     ]
   },
   {
+    "name": "Battlehammer Expedition",
+    "link": "Battlehammer Expedition",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (Fortification): +10% Fortification",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Unknown",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
     "name": "Total Favor<br>Account Rewards",
     "link": "Total Favor",
     "tiers": [

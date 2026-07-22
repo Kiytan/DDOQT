@@ -16,7 +16,8 @@
 			'Mists of Ravenloft',
 			'Magic of Myth Drannor',
 			'Masterminds of Sharn',
-			'The Chill of Ravenloft'
+			'The Chill of Ravenloft',
+			'Terror of Demogorgon'
 		]
 	};
 

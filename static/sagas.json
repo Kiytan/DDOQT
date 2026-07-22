@@ -575,5 +575,45 @@
       "special_delivery_level_36",
       "zoo_creeper_level_36"
     ]
+  },
+  {
+    "name": "Terror of Demogorgon",
+    "tier": "Heroic",
+    "level": "11",
+    "questCount": 12,
+    "questIds": [
+      "tower_of_vengeance_level_11",
+      "the_price_of_an_egg_level_11",
+      "the_fetid_wedding_level_11",
+      "hideous_to_behold_level_11",
+      "stealing_from_sorcere_level_11",
+      "back_to_the_abyss_level_11",
+      "demon_in_the_rough_level_11",
+      "if_it_wasnt_for_bad_luck_level_11",
+      "a_long_way_to_mushrooms_level_11",
+      "flocked_together_level_11",
+      "for_want_of_a_heart_level_11",
+      "a_blood_pact_level_11"
+    ]
+  },
+  {
+    "name": "Terror of Demogorgon",
+    "tier": "Legendary",
+    "level": "37",
+    "questCount": 12,
+    "questIds": [
+      "tower_of_vengeance_level_37",
+      "the_price_of_an_egg_level_37",
+      "the_fetid_wedding_level_37",
+      "hideous_to_behold_level_37",
+      "stealing_from_sorcere_level_37",
+      "back_to_the_abyss_level_37",
+      "demon_in_the_rough_level_37",
+      "if_it_wasnt_for_bad_luck_level_37",
+      "a_long_way_to_mushrooms_level_37",
+      "flocked_together_level_37",
+      "for_want_of_a_heart_level_37",
+      "a_blood_pact_level_37"
+    ]
   }
 ]
