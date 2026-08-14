@@ -59,7 +59,7 @@ src/
     +layout.svelte         Renders {children} only.
     +page.svelte           The single page. Lays out the 3-column grid and bootstraps the app on mount.
   lib/
-    types.ts               Core types + quest-classification helpers + the raid name list.
+    types.ts               Core types + quest-classification helpers (tier, raid).
     questStore.ts          The heart of the app: all stores, persistence, import/export, filtering, stats.
     QuestList.svelte       Renders the filtered quest cards; mark/unmark completion.
     QuestFilters.svelte    Search, level range, quest-type/tier filters, patron filters, sorting.
@@ -93,6 +93,7 @@ interface Quest {
   baseFavor: number;     // favour at Normal difficulty (can be 0)
   patron: string;        // patron organisation, e.g. "The Free Agents"
   adventurePack: string; // source pack, or "Free to Play"
+  raid?: boolean;        // true on raids (each variant flagged separately); absent otherwise
   baseQuestId?: string;  // for level variants: points at the canonical quest's id
 }
 
@@ -137,10 +138,19 @@ possible favour" is always computed at **Elite**.
 
 ### Raids
 
-Raids are identified by **name**, against the hard-coded `RAID_QUESTS` array in
-[types.ts](src/lib/types.ts) — *not* by any field in `quests.json`. If you add a raid
-to the data, you must also add its exact name to `RAID_QUESTS` for raid
-filtering/labelling to work.
+Raids are identified by a **`raid: true` field on the quest entry** in `quests.json`;
+ordinary quests omit the field entirely. `isRaid(quest)` in
+[types.ts](src/lib/types.ts) is the only reader — it takes the quest object, not a name.
+
+Because the flag is per-entry, each **variant** of a raid needs its own `raid: true`
+(e.g. heroic and epic `Plane of Night` are two entries, both flagged). Adding a raid to
+the data therefore needs no code change — set the flag and filtering/labelling follows.
+
+This replaced a hard-coded `RAID_QUESTS` name array. That array had drifted: it was
+missing every heroic-era raid (`A Vision of Destruction`, `Hound of Xoriat`,
+`Tempest's Spine`, `Plane of Night`, `Zawabi's Revenge`, `The Titan Awakes`,
+`The Reaver's Fate`, `Ascension Chamber`), which showed up in the UI as those raids
+being labelled and filtered as ordinary quests.
 
 ## How it works (runtime flow)
 
@@ -239,8 +249,8 @@ Each entry needs `id`, `name`, `level`, `baseFavor`, `patron`, `adventurePack`
   [AdventurePackFilters.svelte](src/lib/AdventurePackFilters.svelte) unless its name
   is in that file's `fixedCategories.Expansions` list (those render under
   "Expansions"). "Free to Play" is special-cased as a top-level toggle.
-- A new **raid**: also add the exact `name` to `RAID_QUESTS` in
-  [types.ts](src/lib/types.ts).
+- A new **raid**: set `"raid": true` on the entry (and on each of its level variants).
+  No code change needed.
 - A **variant** (same quest at a higher level): give it its own `id` and set
   `baseQuestId` to the canonical quest's `id`, so favour is grouped correctly.
 

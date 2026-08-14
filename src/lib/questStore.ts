@@ -469,7 +469,7 @@ export const filteredQuests = derived(
 
 			// Raid quest filter
 			if ($filters.raids !== undefined) {
-				const questIsRaid = isRaid(quest.name);
+				const questIsRaid = isRaid(quest);
 				if ($filters.raids === 'include') {
 					// Include: allow both raids and non-raids (no filtering)
 					// This is a no-op - don't filter anything
@@ -481,7 +481,7 @@ export const filteredQuests = derived(
 			}
 
 			// Only raids filter - show only raids when enabled
-			if ($filters.onlyRaids && !isRaid(quest.name)) return false;
+			if ($filters.onlyRaids && !isRaid(quest)) return false;
 
 			// Filter for quests without Epic/Legendary versions
 			if ($filters.noEpicLegendaryVersions) {

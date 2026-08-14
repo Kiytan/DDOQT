@@ -119,7 +119,7 @@
 								{:else if isLegendaryQuest(quest.level)}
 									<span class="tier-label legendary">Legendary</span>
 								{/if}
-								{#if isRaid(quest.name)}
+								{#if isRaid(quest)}
 									<span class="tier-label raid">Raid</span>
 								{/if}
 								{#if quest.baseQuestId}
@@ -169,7 +169,7 @@
 								{:else if isLegendaryQuest(quest.level)}
 									<span class="tier-label legendary">Legendary</span>
 								{/if}
-								{#if isRaid(quest.name)}
+								{#if isRaid(quest)}
 									<span class="tier-label raid">Raid</span>
 								{/if}
 								{#if quest.baseQuestId}
