@@ -7467,5 +7467,32 @@
     "patron": "Battlehammer Expedition",
     "adventurePack": "Terror of Demogorgon",
     "baseQuestId": "a_blood_pact"
+  },
+  {
+    "id": "raiding_the_raiders_level_11",
+    "name": "Raiding the Raiders",
+    "level": 11,
+    "baseFavor": 5,
+    "patron": "Battlehammer Expedition",
+    "adventurePack": "Terror of Demogorgon",
+    "baseQuestId": "raiding_the_raiders"
+  },
+  {
+    "id": "raiding_the_raiders_level_37",
+    "name": "Raiding the Raiders",
+    "level": 37,
+    "baseFavor": 5,
+    "patron": "Battlehammer Expedition",
+    "adventurePack": "Terror of Demogorgon",
+    "baseQuestId": "raiding_the_raiders"
+  },
+  {
+    "id": "terror_of_the_demon_lords",
+    "name": "Terror of the Demon Lords",
+    "level": 37,
+    "baseFavor": 10,
+    "patron": "Battlehammer Expedition",
+    "adventurePack": "Terror of Demogorgon",
+    "raid": true
   }
 ]
