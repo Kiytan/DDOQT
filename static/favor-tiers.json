@@ -294,6 +294,30 @@
     ]
   },
   {
+    "name": "Keepers of Lamordia",
+    "link": "Keepers of Lamordia",
+    "tiers": [
+      {
+        "tier": 1,
+        "favorRequired": 75,
+        "reward": "Feat (Fortification Bypass): +5% Fortification Bypass",
+        "unreachable": false
+      },
+      {
+        "tier": 2,
+        "favorRequired": 150,
+        "reward": "Feat (Hit Points): +5 Hit Points",
+        "unreachable": false
+      },
+      {
+        "tier": 3,
+        "favorRequired": 400,
+        "reward": "Unreachable",
+        "unreachable": true
+      }
+    ]
+  },
+  {
     "name": "House Kundarak",
     "link": "House Kundarak",
     "tiers": [
@@ -570,7 +594,7 @@
       {
         "tier": 2,
         "favorRequired": 150,
-        "reward": "Unknown",
+        "reward": "Feat (Hit Points): +5 Maximum Hit Points",
         "unreachable": false
       },
       {

@@ -1,5 +1,9 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.5.2 - November 2026
+- Updated favor rewards for Keepers of Lamordia (Chill of Ravenloft) and Battlehammer Expedition (Terror of the Demogorgon)
+
+
 ## Version 2.5.1 - July 2026
 - Added the Terror of the Demogorgon quests/expansion/saga. The raid will be added once it's released
 

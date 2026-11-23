@@ -7,7 +7,8 @@ A minimal Svelte 5 web application for tracking completed Dungeons & Dragons Onl
 - **Quest Management**: Track completion status of DDO quests
 - **Multiple Filters**: Filter by level range, patron, adventure pack, and completion status
 - **Progress Statistics**: View completion percentage and earned favor
-- **URL Hash Persistence**: Quest progress is automatically saved in the URL hash for easy sharing and bookmarking
+- **Saved Progress**: Quest progress is saved automatically in your browser's local storage
+- **Shareable Links**: Export your progress as a compressed URL to back it up or share it
 - **Responsive Design**: Works on desktop and mobile devices
 - **TypeScript Support**: Fully typed for better development experience
 
@@ -26,7 +27,7 @@ Each quest includes:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 20.19+ (required by Vite 7)
 - npm or pnpm
 
 ### Installation
@@ -62,7 +63,7 @@ The built files will be in the `build` directory.
    - Patron organizations
    - Adventure packs
 4. **Track Progress**: View your completion statistics at the top
-5. **Share Progress**: Your completion status is automatically saved in the URL or using the hash in the settings panel
+5. **Share Progress**: Your completion status is saved automatically in your browser. Use the export option in the settings panel to copy a shareable URL
 
 ## Customization
 
@@ -96,7 +97,7 @@ The application uses component-scoped CSS. Key style files:
 - **Build Tool**: Vite
 - **Styling**: Component-scoped CSS
 - **State Management**: Svelte stores
-- **Data Persistence**: Base64-encoded JSON in URL hash
+- **Data Persistence**: Browser local storage, with LZ-string-compressed URL hashes for import/export
 
 ## Development
 
