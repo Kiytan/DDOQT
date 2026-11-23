@@ -1,5 +1,9 @@
 # DDO Quest Tracker - Patch Notes
 
+## Version 2.5.3 - November 2026
+- Corrected the quest lists for 12 sagas to match the DDO Wiki, including Epic Pirates of the Thunder Sea (previously showed no progress), Perils of Cormyr, Honor of the Huntsilvers, The End of Eberron, The Planeswalker's Path, Menace of the Underdark, and Cogs Explorer Dungeons / Masterminds of Sharn
+
+
 ## Version 2.5.2 - November 2026
 - Updated favor rewards for Keepers of Lamordia (Chill of Ravenloft) and Battlehammer Expedition (Terror of the Demogorgon)
 

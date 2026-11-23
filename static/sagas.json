@@ -162,14 +162,14 @@
     "level": "15-16",
     "questCount": 8,
     "questIds": [
-      "thralls_of_the_fungus_lord_level_15",
-      "the_same_old_song_level_15",
+      "ruinous_schemes_level_15",
+      "smash_and_burn_level_15",
       "the_wraithcallers_level_15",
+      "thralls_of_the_fungus_lord_level_15",
       "scavenger_hunt_level_16",
       "the_magma_must_flow_level_16",
       "security_detail_level_16",
-      "roll_call_level_16",
-      "blown_deadline_level_16"
+      "roll_call_level_16"
     ]
   },
   {
@@ -179,13 +179,13 @@
     "questCount": 9,
     "questIds": [
       "just_business_level_15",
-      "ruinous_schemes_level_15",
-      "smash_and_burn_level_15",
       "a_sharn_welcome_level_15",
       "best_laid_plans_level_15",
       "red_rain_level_15",
+      "the_same_old_song_level_15",
       "no_refunds_level_16",
       "house_of_pain_level_16",
+      "blown_deadline_level_16",
       "reach_for_the_sky_level_16"
     ]
   },
@@ -193,48 +193,56 @@
     "name": "Perils of Cormyr",
     "tier": "Heroic",
     "level": "15-19",
-    "questCount": 18,
+    "questCount": 24,
     "questIds": [
+      "disciples_of_shar",
+      "escape_plan",
       "shadow_of_a_doubt",
-      "a_lesson_in_deception_level_16",
-      "army_of_shadow_level_16",
       "friends_in_low_places_level_16",
+      "a_lesson_in_deception_level_16",
       "the_thrill_of_the_hunt_level_16",
+      "army_of_shadow_level_16",
       "through_a_mirror_darkly_level_16",
       "outbreak_level_17",
-      "thorn_and_paw_level_17",
       "overgrowth_level_17",
+      "thorn_and_paw_level_17",
       "the_druids_curse_level_17",
       "a_stay_at_the_inn_level_18",
       "detour_level_18",
-      "rest_stop_level_18",
       "lost_in_the_swamp_level_18",
+      "rest_stop_level_18",
       "the_end_of_the_road_level_18",
+      "murder_by_night",
+      "the_riddle",
       "the_trackers_trap_level_19",
       "lines_of_supply_level_19",
-      "breaking_the_ranks_level_19"
+      "breaking_the_ranks_level_19",
+      "a_break_in_the_ice_level_19",
+      "what_goes_up_level_19"
     ]
   },
   {
     "name": "Honor of the Huntsilvers",
     "tier": "Heroic",
     "level": "16-19",
-    "questCount": 14,
+    "questCount": 16,
     "questIds": [
-      "a_lesson_in_deception_level_16",
-      "army_of_shadow_level_16",
       "friends_in_low_places_level_16",
+      "a_lesson_in_deception_level_16",
       "the_thrill_of_the_hunt_level_16",
+      "army_of_shadow_level_16",
       "through_a_mirror_darkly_level_16",
-      "outbreak_level_17",
-      "thorn_and_paw_level_17",
-      "overgrowth_level_17",
       "the_druids_curse_level_17",
       "a_stay_at_the_inn_level_18",
       "detour_level_18",
-      "rest_stop_level_18",
       "lost_in_the_swamp_level_18",
-      "the_end_of_the_road_level_18"
+      "rest_stop_level_18",
+      "the_end_of_the_road_level_18",
+      "the_trackers_trap_level_19",
+      "lines_of_supply_level_19",
+      "breaking_the_ranks_level_19",
+      "a_break_in_the_ice_level_19",
+      "what_goes_up_level_19"
     ]
   },
   {
@@ -264,23 +272,23 @@
     "level": "20-25",
     "questCount": 10,
     "questIds": [
-      "irestone_inlet_level_20",
-      "the_legend_of_twotoed_tobias_level_20",
-      "prove_your_worth_level_20",
-      "ghost_of_a_chance_level_20",
-      "the_troglodytes_get_level_20",
-      "old_grey_garl_level_20",
-      "the_black_loch_level_25",
-      "storm_the_beaches_level_25",
-      "bargain_of_blood_level_25",
-      "the_tide_turns_level_25"
+      "the_black_loch_level_20",
+      "storm_the_beaches_level_20",
+      "bargain_of_blood_level_20",
+      "the_tide_turns_level_20",
+      "spies_in_the_house_level_21",
+      "a_legend_revisited",
+      "old_tomb_new_tenants",
+      "prove_your_worth_epic",
+      "ghost_of_a_chance_epic",
+      "precious_cargo"
     ]
   },
   {
     "name": "Menace of the Underdark",
     "tier": "Epic",
     "level": "21-23",
-    "questCount": 15,
+    "questCount": 13,
     "questIds": [
       "impossible_demands",
       "the_lost_thread",
@@ -294,93 +302,102 @@
       "the_house_of_death_undone",
       "trial_by_fury",
       "reclaiming_the_rift",
-      "the_deal_and_the_demon",
-      "murder_by_night",
-      "the_riddle"
+      "the_deal_and_the_demon"
     ]
   },
   {
     "name": "The End of Eberron",
     "tier": "Epic",
     "level": "21-23",
-    "questCount": 10,
+    "questCount": 11,
     "questIds": [
-      "impossible_demands",
-      "the_lost_thread",
-      "dont_drink_the_water",
-      "the_house_of_broken_chains",
+      "the_lords_of_dust_level_21",
+      "servants_of_the_overlord_level_21",
+      "the_spinner_of_shadows_level_21",
+      "beyond_the_rift_level_21",
       "the_house_of_rusted_blades",
+      "the_house_of_broken_chains",
+      "the_house_of_death_undone",
       "the_portal_opens",
-      "in_the_belly_of_the_beast",
       "trial_by_fury",
-      "reclaiming_the_rift",
-      "the_deal_and_the_demon"
+      "the_deal_and_the_demon",
+      "reclaiming_the_rift"
     ]
   },
   {
     "name": "The Planeswalker's Path",
     "tier": "Epic",
     "level": "21-26",
-    "questCount": 10,
+    "questCount": 11,
     "questIds": [
-      "impossible_demands",
-      "dont_drink_the_water",
-      "the_house_of_broken_chains",
-      "the_portal_opens",
-      "in_the_belly_of_the_beast",
+      "beyond_the_rift_level_21",
+      "the_lost_thread",
+      "trial_by_fury",
+      "the_deal_and_the_demon",
+      "reclaiming_the_rift",
       "a_stay_at_the_inn_level_24",
       "detour_level_24",
-      "rest_stop_level_24",
       "lost_in_the_swamp_level_24",
-      "the_end_of_the_road_level_24"
+      "rest_stop_level_24",
+      "the_end_of_the_road_level_24",
+      "through_a_mirror_darkly_level_26"
     ]
   },
   {
     "name": "Perils of Cormyr",
     "tier": "Epic",
     "level": "21-27",
-    "questCount": 18,
+    "questCount": 25,
     "questIds": [
       "impossible_demands",
+      "the_unquiet_graves",
       "the_lost_thread",
+      "the_battle_for_eveningstar",
+      "dont_drink_the_water",
+      "in_the_belly_of_the_beast",
       "outbreak_level_23",
-      "thorn_and_paw_level_23",
       "overgrowth_level_23",
+      "thorn_and_paw_level_23",
       "the_druids_curse_level_23",
       "a_stay_at_the_inn_level_24",
       "detour_level_24",
-      "rest_stop_level_24",
       "lost_in_the_swamp_level_24",
+      "rest_stop_level_24",
       "the_end_of_the_road_level_24",
-      "a_lesson_in_deception_level_26",
-      "army_of_shadow_level_26",
       "friends_in_low_places_level_26",
+      "a_lesson_in_deception_level_26",
       "the_thrill_of_the_hunt_level_26",
+      "army_of_shadow_level_26",
       "through_a_mirror_darkly_level_26",
       "the_trackers_trap_level_27",
-      "lines_of_supply_level_27"
+      "lines_of_supply_level_27",
+      "breaking_the_ranks_level_27",
+      "a_break_in_the_ice_level_27",
+      "what_goes_up_level_27"
     ]
   },
   {
     "name": "Honor of the Huntsilvers",
     "tier": "Epic",
     "level": "23-27",
-    "questCount": 14,
+    "questCount": 16,
     "questIds": [
-      "outbreak_level_23",
-      "thorn_and_paw_level_23",
-      "overgrowth_level_23",
       "the_druids_curse_level_23",
       "a_stay_at_the_inn_level_24",
       "detour_level_24",
-      "rest_stop_level_24",
       "lost_in_the_swamp_level_24",
+      "rest_stop_level_24",
       "the_end_of_the_road_level_24",
-      "a_lesson_in_deception_level_26",
-      "army_of_shadow_level_26",
       "friends_in_low_places_level_26",
+      "a_lesson_in_deception_level_26",
       "the_thrill_of_the_hunt_level_26",
-      "through_a_mirror_darkly_level_26"
+      "army_of_shadow_level_26",
+      "through_a_mirror_darkly_level_26",
+      "the_trackers_trap_level_27",
+      "lines_of_supply_level_27",
+      "breaking_the_ranks_level_27",
+      "a_break_in_the_ice_level_27",
+      "what_goes_up_level_27"
     ]
   },
   {
@@ -427,14 +444,14 @@
     "level": "32",
     "questCount": 8,
     "questIds": [
-      "thralls_of_the_fungus_lord_level_32",
-      "the_same_old_song_level_32",
+      "ruinous_schemes_level_32",
+      "smash_and_burn_level_32",
       "the_wraithcallers_level_32",
+      "thralls_of_the_fungus_lord_level_32",
       "scavenger_hunt_level_32",
       "the_magma_must_flow_level_32",
       "security_detail_level_32",
-      "roll_call_level_32",
-      "blown_deadline_level_32"
+      "roll_call_level_32"
     ]
   },
   {
@@ -444,13 +461,13 @@
     "questCount": 9,
     "questIds": [
       "just_business_level_32",
-      "ruinous_schemes_level_32",
-      "smash_and_burn_level_32",
       "a_sharn_welcome_level_32",
       "best_laid_plans_level_32",
       "red_rain_level_32",
+      "the_same_old_song_level_32",
       "no_refunds_level_32",
       "house_of_pain_level_32",
+      "blown_deadline_level_32",
       "reach_for_the_sky_level_32"
     ]
   },
