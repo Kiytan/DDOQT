@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { questStats, quests, completedQuests, calculateFavor, filteredQuests } from '$lib/questStore.js';
+	import { questStats, quests, completedQuests, calculateFavor, filteredQuests } from '#lib/questStore.js';
 	import ToggleButton from './ToggleButton.svelte';
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
-	import type { Quest } from '$lib/types.js';
+	import type { Quest } from '#lib/types.js';
 
 	let isExpanded = true;
 	let favorTiers: any[] = [];

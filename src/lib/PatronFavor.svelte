@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { quests, completedQuests, calculateFavor } from '$lib/questStore.js';
-	import type { Quest } from '$lib/types.js';
+	import { quests, completedQuests, calculateFavor } from '#lib/questStore.js';
+	import type { Quest } from '#lib/types.js';
 	import { derived } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import ToggleButton from './ToggleButton.svelte';

@@ -7,15 +7,15 @@
 		loadSettings,
 		loadActivePlan,
 		pendingHashImport
-	} from '$lib/questStore.js';
-	import QuestStats from '$lib/QuestStats.svelte';
-	import QuestFilters from '$lib/QuestFilters.svelte';
-	import QuestList from '$lib/QuestList.svelte';
-	import PatronFavor from '$lib/PatronFavor.svelte';
-	import SagaProgress from '$lib/SagaProgress.svelte';
-	import AdventurePackFilters from '$lib/AdventurePackFilters.svelte';
-	import QuestSettings from '$lib/QuestSettings.svelte';
-	import ImportDialog from '$lib/ImportDialog.svelte';
+	} from '#lib/questStore.js';
+	import QuestStats from '#lib/QuestStats.svelte';
+	import QuestFilters from '#lib/QuestFilters.svelte';
+	import QuestList from '#lib/QuestList.svelte';
+	import PatronFavor from '#lib/PatronFavor.svelte';
+	import SagaProgress from '#lib/SagaProgress.svelte';
+	import AdventurePackFilters from '#lib/AdventurePackFilters.svelte';
+	import QuestSettings from '#lib/QuestSettings.svelte';
+	import ImportDialog from '#lib/ImportDialog.svelte';
 
 	let showBackToTop = false;
 

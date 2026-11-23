@@ -27,7 +27,7 @@ Each quest includes:
 
 ### Prerequisites
 
-- Node.js 20.19+ (required by Vite 7)
+- Node.js 22.17+ (required by SvelteKit 3)
 - npm or pnpm
 
 ### Installation

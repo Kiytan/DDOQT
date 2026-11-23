@@ -19,9 +19,11 @@ via a URL hash + auto-sync.
 
 ## Tech stack
 
-- **Framework**: Svelte 5 + SvelteKit 2
+- **Framework**: Svelte 5 + SvelteKit 3
 - **Language**: TypeScript (strict)
-- **Build tool**: Vite 7
+- **Build tool**: Vite 8 (requires Node 22.17+, enforced via `engines` + `engine-strict`)
+- **Config**: SvelteKit options (adapter, preprocess) live in the `sveltekit({...})` call in
+  [vite.config.ts](vite.config.ts). SvelteKit 3 no longer reads `svelte.config.js` — don't recreate it.
 - **Adapter**: `@sveltejs/adapter-static` — output is fully static, prerendered, **client-side only** (`ssr = false`, `prerender = true` in [src/routes/+layout.js](src/routes/+layout.js))
 - **State**: Svelte stores (`writable`/`derived`), no external state library
 - **Persistence**: `localStorage` (primary) + URL hash (import/export/sharing)
@@ -220,9 +222,10 @@ They produce different visible results. Don't assume "clear" has one meaning.
 
 ## Conventions
 
-- **Imports**: use the `$lib` alias and import store/helpers from
-  `$lib/questStore.js` / `$lib/types.js` (note the `.js` extension on the TS files —
-  this is the SvelteKit/bundler convention here; keep it).
+- **Imports**: use the `#lib` subpath import (defined in `package.json` → `imports`) and
+  import store/helpers from `#lib/questStore.js` / `#lib/types.js` (note the `.js` extension
+  on the TS files — this is the SvelteKit/bundler convention here; keep it). SvelteKit 3
+  removed the old `$lib` alias, so `$lib/...` imports will fail the build.
 - **Svelte version mix**: [+layout.svelte](src/routes/+layout.svelte) uses Svelte 5
   runes (`$props`), but the feature components use the **Svelte 4-style API**
   (`export let`, `$:` reactive statements, `on:click`, store-`$` autosubscription).

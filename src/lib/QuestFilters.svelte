@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { filters, quests, clearActivePlan } from '$lib/questStore.js';
+	import { filters, quests, clearActivePlan } from '#lib/questStore.js';
 	import { derived } from 'svelte/store';
-	import type { QuestFilters, FilterState } from '$lib/types.js';
+	import type { QuestFilters, FilterState } from '#lib/types.js';
 	import ToggleButton from './ToggleButton.svelte';
 	import TriStateToggle from './TriStateToggle.svelte';
 

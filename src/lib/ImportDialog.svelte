@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pendingHashImport, importFromHash, cancelHashImport } from '$lib/questStore.js';
+	import { pendingHashImport, importFromHash, cancelHashImport } from '#lib/questStore.js';
 
 	function handleImport(merge: boolean) {
 		importFromHash(merge);

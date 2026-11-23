@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { quests, filters } from '$lib/questStore.js';
+	import { quests, filters } from '#lib/questStore.js';
 	import { derived } from 'svelte/store';
 	import TriStateToggle from './TriStateToggle.svelte';
-	import type { FilterState } from '$lib/types.js';
+	import type { FilterState } from '#lib/types.js';
 
 	// Define only the specific categories that need to be separated
 	const fixedCategories = {

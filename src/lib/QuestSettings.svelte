@@ -8,8 +8,8 @@
 		filters,
 		applyCustomQuestList,
 		clearFilters
-	} from '$lib/questStore.js';
-	import { importPlannerText, type ImportReport } from '$lib/plannerImport.js';
+	} from '#lib/questStore.js';
+	import { importPlannerText, type ImportReport } from '#lib/plannerImport.js';
 	import { get } from 'svelte/store';
 	import ToggleButton from './ToggleButton.svelte';
 

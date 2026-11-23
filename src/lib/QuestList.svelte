@@ -6,9 +6,9 @@
 		calculateFavor,
 		filters,
 		quests
-	} from '$lib/questStore.js';
-	import type { Quest } from '$lib/types.js';
-	import { isEpicQuest, isLegendaryQuest, getQuestTier, isRaid } from '$lib/types.js';
+	} from '#lib/questStore.js';
+	import type { Quest } from '#lib/types.js';
+	import { isEpicQuest, isLegendaryQuest, getQuestTier, isRaid } from '#lib/types.js';
 
 	type Difficulty = 'Normal' | 'Hard' | 'Elite' | 'Reaper';
 
