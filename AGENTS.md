@@ -171,6 +171,8 @@ being labelled and filtered as ordinary quests.
 2. `loadCompletedFromStorage()` — read + validate `localStorage['ddoqt-completed-quests']` into the `completedQuests` store.
 3. `loadSettings()` — read `localStorage['ddoqt-settings']` (currently just `autoSyncEnabled`).
 4. `checkForHashImport()` — if the URL has a `#hash`, decode it and stage it in `pendingHashImport`, which makes `ImportDialog` appear.
+5. A `hashchange` listener then re-runs `checkForHashImport()`, because pasting a link that
+   only differs after the `#` into an open tab doesn't reload the page.
 
 ### Stores ([src/lib/questStore.ts](src/lib/questStore.ts))
 
@@ -199,7 +201,7 @@ validation if you touch import — it is the trust boundary for externally-suppl
 data (e.g. plugin-generated URLs).
 
 Every way an import can fail sets `hashImportError`, which shows `ImportErrorDialog`, so a
-broken or cut-short link is never silently ignored. A link that decodes but has **no valid
+broken or cut-short link is never silently ignored. Each check clears the previous error first. A link that decodes but has **no valid
 quests** is also refused: an automatic `?action=replace` with an empty set would otherwise
 wipe the player's progress.
 

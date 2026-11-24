@@ -181,6 +181,9 @@ export function saveCompletedToStorage(completed: CompletedQuests): void {
 export function checkForHashImport(): void {
 	if (typeof window === 'undefined') return;
 
+	// A new link replaces any error left over from the previous one
+	hashImportError.set(null);
+
 	const hash = window.location.hash.slice(1);
 	if (!hash) {
 		pendingHashImport.set(null);

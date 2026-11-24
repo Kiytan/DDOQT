@@ -30,7 +30,10 @@
 			checkForHashImport();
 		};
 
-		initializeApp();
+		// Pasting a link that only differs after the # doesn't reload the page,
+		// so check the new link here (once the quests have loaded)
+		const handleHashChange = () => checkForHashImport();
+		initializeApp().then(() => window.addEventListener('hashchange', handleHashChange));
 
 		// Handle scroll events for back to top button
 		const handleScroll = () => {
@@ -41,6 +44,7 @@
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('hashchange', handleHashChange);
 		};
 	});
 
