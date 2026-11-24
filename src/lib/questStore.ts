@@ -38,6 +38,12 @@ export const completedQuests = writable<CompletedQuests>({});
 // Store for tracking if there's a hash to import
 export const pendingHashImport = writable<CompletedQuests | null>(null);
 
+// Why the last import link couldn't be used, shown to the player. Null when there's nothing to report.
+export const hashImportError = writable<string | null>(null);
+
+const UNREADABLE_LINK =
+	"This import link couldn't be read, so nothing was imported. It may have been cut short when it was copied.";
+
 // Filters store
 export const filters = writable<QuestFilters>({});
 
@@ -181,6 +187,12 @@ export function checkForHashImport(): void {
 		return;
 	}
 
+	// The import can't go ahead: tell the player why instead of failing silently
+	const fail = (message: string) => {
+		pendingHashImport.set(null);
+		hashImportError.set(message);
+	};
+
 	// Check for auto-import query parameter: ?action=merge or ?action=replace
 	const urlParams = new URLSearchParams(window.location.search);
 	const autoAction = urlParams.get('action');
@@ -189,7 +201,7 @@ export function checkForHashImport(): void {
 		// Limit hash size to prevent memory exhaustion
 		if (hash.length > 75000) {
 			console.warn('URL hash too large, ignoring');
-			pendingHashImport.set(null);
+			fail('This import link is too large to read, so nothing was imported.');
 			return;
 		}
 
@@ -206,7 +218,7 @@ export function checkForHashImport(): void {
 				// Validate hash format before attempting to decode
 				if (!/^[A-Za-z0-9+/]*={0,2}$/.test(hash)) {
 					console.warn('Invalid hash format');
-					pendingHashImport.set(null);
+					fail(UNREADABLE_LINK);
 					return;
 				}
 				decoded = atob(hash);
@@ -216,7 +228,7 @@ export function checkForHashImport(): void {
 					lzError,
 					base64Error
 				);
-				pendingHashImport.set(null);
+				fail(UNREADABLE_LINK);
 				return;
 			}
 		}
@@ -224,7 +236,7 @@ export function checkForHashImport(): void {
 		// Additional validation on decoded content
 		if (decoded.length > 50000) {
 			console.warn('Decoded hash content too large, ignoring');
-			pendingHashImport.set(null);
+			fail('This import link is too large to read, so nothing was imported.');
 			return;
 		}
 
@@ -233,7 +245,7 @@ export function checkForHashImport(): void {
 		// Validate that parsed data is an object
 		if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
 			console.warn('Invalid hash data structure, expected object');
-			pendingHashImport.set(null);
+			fail(UNREADABLE_LINK);
 			return;
 		}
 
@@ -262,6 +274,13 @@ export function checkForHashImport(): void {
 					};
 				}
 			}
+		}
+
+		// Nothing usable. Never import this: an automatic Replace would wipe the player's progress.
+		if (Object.keys(completed).length === 0) {
+			console.warn('Import link contains no valid quests, ignoring');
+			fail("This import link didn't contain any quests, so nothing was imported.");
+			return;
 		}
 
 		// Set the pending import data (doesn't auto-import)
@@ -293,7 +312,15 @@ export function checkForHashImport(): void {
 		}
 	} catch (error) {
 		console.error('Failed to parse hash:', error);
-		pendingHashImport.set(null);
+		fail(UNREADABLE_LINK);
+	}
+}
+
+// Close the import error message and clear the link it came from, so a reload doesn't show it again
+export function dismissHashImportError(): void {
+	hashImportError.set(null);
+	if (typeof window !== 'undefined') {
+		window.history.replaceState({}, '', window.location.pathname);
 	}
 }
 

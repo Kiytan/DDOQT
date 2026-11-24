@@ -71,6 +71,7 @@ src/
     SagaProgress.svelte    Saga completion by tier (Heroic/Epic/Legendary), with "filter to saga".
     QuestSettings.svelte   Export URL, plugin auto-sync toggle, reset, patch-notes modal.
     ImportDialog.svelte    Modal shown when a shared URL hash is detected.
+    ImportErrorDialog.svelte  Modal shown when an import link can't be used (`hashImportError`).
     TriStateToggle.svelte  Reusable 3-state control: none → include → exclude → none.
     ToggleButton.svelte    Reusable expand/collapse chevron (presentational; tabindex=-1).
 static/
@@ -196,6 +197,11 @@ length (50k), tries LZ-string first then falls back to legacy base64, and valida
 each entry's `difficulty` against the allowed set before accepting it. Keep that
 validation if you touch import — it is the trust boundary for externally-supplied
 data (e.g. plugin-generated URLs).
+
+Every way an import can fail sets `hashImportError`, which shows `ImportErrorDialog`, so a
+broken or cut-short link is never silently ignored. A link that decodes but has **no valid
+quests** is also refused: an automatic `?action=replace` with an empty set would otherwise
+wipe the player's progress.
 
 Auto-sync: a URL of the form `…#<hash>?action=merge|replace` will import **without**
 the dialog **only if** `autoSyncEnabled` is on; otherwise the dialog always shows.

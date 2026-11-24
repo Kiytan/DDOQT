@@ -6,7 +6,8 @@
 		checkForHashImport,
 		loadSettings,
 		loadActivePlan,
-		pendingHashImport
+		pendingHashImport,
+		hashImportError
 	} from '#lib/questStore.js';
 	import QuestStats from '#lib/QuestStats.svelte';
 	import QuestFilters from '#lib/QuestFilters.svelte';
@@ -16,6 +17,7 @@
 	import AdventurePackFilters from '#lib/AdventurePackFilters.svelte';
 	import QuestSettings from '#lib/QuestSettings.svelte';
 	import ImportDialog from '#lib/ImportDialog.svelte';
+	import ImportErrorDialog from '#lib/ImportErrorDialog.svelte';
 
 	let showBackToTop = false;
 
@@ -92,6 +94,10 @@
 <!-- Import dialog for URL hash data -->
 {#if $pendingHashImport}
 	<ImportDialog />
+{/if}
+
+{#if $hashImportError}
+	<ImportErrorDialog />
 {/if}
 
 {#if showBackToTop}
