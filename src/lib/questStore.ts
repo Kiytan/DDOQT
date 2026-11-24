@@ -137,14 +137,13 @@ export function loadCompletedFromStorage(): void {
 						typeof questId === 'string' &&
 						typeof completion === 'object' &&
 						completion !== null &&
-						'difficulty' in completion &&
-						'completedDate' in completion
+						'difficulty' in completion
 					) {
+						// Older saves also carry a completedDate, which is no longer used and is dropped here
 						const comp = completion as any;
 						if (['Normal', 'Hard', 'Elite', 'Reaper'].includes(comp.difficulty)) {
 							validated[questId] = {
-								difficulty: comp.difficulty,
-								completedDate: comp.completedDate
+								difficulty: comp.difficulty
 							};
 						}
 					}
@@ -251,16 +250,15 @@ export function checkForHashImport(): void {
 			if (
 				typeof completion === 'object' &&
 				completion !== null &&
-				'difficulty' in completion &&
-				'completedDate' in completion
+				'difficulty' in completion
 			) {
+				// Older plugin versions also send a completedDate, which is ignored
 				const comp = completion as any;
 
 				// Validate difficulty
 				if (['Normal', 'Hard', 'Elite', 'Reaper'].includes(comp.difficulty)) {
 					completed[questId] = {
-						difficulty: comp.difficulty,
-						completedDate: comp.completedDate
+						difficulty: comp.difficulty
 					};
 				}
 			}
@@ -375,10 +373,7 @@ export function toggleQuestCompletion(
 			delete newCompleted[questId];
 		} else {
 			// Mark quest as completed with the selected difficulty
-			newCompleted[questId] = {
-				difficulty,
-				completedDate: new Date().toISOString()
-			};
+			newCompleted[questId] = { difficulty };
 		}
 
 		saveCompletedToStorage(newCompleted);

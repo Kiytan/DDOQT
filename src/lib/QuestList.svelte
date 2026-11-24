@@ -96,7 +96,6 @@
 		{#each $filteredQuests as quest (quest.id)}
 			{@const isCompleted = isQuestCompleted(quest.id)}
 			{@const completedDifficulty = getCompletedDifficulty(quest.id)}
-			{@const completedDate = $completedQuests[quest.id]?.completedDate}
 			{@const difficultyBgColor = completedDifficulty
 				? getDifficultyBackgroundColor(completedDifficulty)
 				: ''}

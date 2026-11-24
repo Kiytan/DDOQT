@@ -33,7 +33,6 @@ export interface QuestFilters {
 export interface CompletedQuests {
 	[questId: string]: {
 		difficulty: 'Normal' | 'Hard' | 'Elite' | 'Reaper';
-		completedDate: string;
 	};
 }
 

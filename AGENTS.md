@@ -100,9 +100,15 @@ interface Quest {
 }
 
 interface CompletedQuests {
-  [questId: string]: { difficulty: 'Normal' | 'Hard' | 'Elite' | 'Reaper'; completedDate: string };
+  [questId: string]: { difficulty: 'Normal' | 'Hard' | 'Elite' | 'Reaper' };
 }
 ```
+
+Completions used to carry a `completedDate` too. It was never displayed, so it was removed
+(Nov 2026). Older localStorage saves and older plugin versions still include it; the loaders
+accept those entries and drop the field. Don't make any new field *required* on import
+without the same care: an entry missing a required field is silently discarded, so every
+plugin sync would import nothing until the plugin caught up.
 
 ### Quest variants and `baseQuestId` — important
 
